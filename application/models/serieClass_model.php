@@ -15,6 +15,8 @@ class serie extends CI_Model
 	private $_serie_srcid;
 	private $_serie_srcname;
 	private $_serie_img;
+	private $_serie_creator;
+	private $_serie_creatorname;
 
     // Constructeur
     public function __construct()
@@ -43,14 +45,14 @@ class serie extends CI_Model
 	public function getName():string{
 		return $this->_serie_name;
 	}
-	public function setName(int $strName){
+	public function setName(string $strName){
 		$this->_serie_name = $strName;
 	}
 	
 	public function getSummary():string{
 		return $this->_serie_summary;
 	}
-	public function setSummary(int $strSummary){
+	public function setSummary(string $strSummary){
 		$this->_serie_summary = $strSummary;
 	}
 
@@ -92,7 +94,7 @@ class serie extends CI_Model
 	public function getCatname():string{
 		return $this->_serie_catname;
 	}
-	public function setCatname(int $strCatname){
+	public function setCatname(string $strCatname){
 		$this->_serie_catname = $strCatname;
 	}
 
@@ -106,15 +108,29 @@ class serie extends CI_Model
 	public function getSrcname():string{
 		return $this->_serie_srcname;
 	}
-	public function setSrcname(int $strSrcname){
+	public function setSrcname(string $strSrcname){
 		$this->_serie_srcname = $strSrcname;
 	}
 
 	public function getImg():string{
 		return $this->_serie_img;
 	}
-	public function setImg(int $strImg){
+	public function setImg(string $strImg){
 		$this->_serie_img = $strImg;
+	}
+
+	public function getCreator():int{
+		return $this->_serie_creator;
+	}
+	public function setCreator(int $intCreator){
+		$this->_serie_creator = $intCreator;
+	}
+
+	public function getCreatorname():string{
+		return $this->_serie_creatorname;
+	}
+	public function setCreatorname(string $strCreatorname){
+		$this->_serie_creatorname = $strCreatorname;
 	}
 	
 }

@@ -40,35 +40,35 @@ class user extends CI_Model
 	public function getPseudo():string{
 		return $this->_user_pseudo;
 	}
-	public function setPseudo(int $strPseudo){
+	public function setPseudo(string $strPseudo){
 		$this->_user_pseudo = $strPseudo;
 	}
 
 	public function getPassword():string{
 		return $this->_user_password;
 	}
-	public function setPassword(int $strPassword){
+	public function setPassword(string $strPassword){
 		$this->_user_password = $strPassword;
 	}
 
 	public function getName():string{
 		return $this->_user_name;
 	}
-	public function setName(int $strName){
+	public function setName(string $strName){
 		$this->_user_name = $strName;
 	}
 
 	public function getFirstname():string{
 		return $this->_user_firstname;
 	}
-	public function setFirstname(int $strFirstname){
+	public function setFirstname(string $strFirstname){
 		$this->_user_firstname = $strFirstname;
 	}
 
 	public function getMail():string{
 		return $this->_user_mail;
 	}
-	public function setMail(int $strMail){
+	public function setMail(string $strMail){
 		$this->_user_mail = $strMail;
 	}
 
@@ -82,14 +82,14 @@ class user extends CI_Model
 	public function getRolename():string{
 		return $this->_user_rolename;
 	}
-	public function setRolename(int $strRolename){
+	public function setRolename(string $strRolename){
 		$this->_user_rolename = $strRolename;
 	}
 
 	public function getImg():string{
 		return $this->_user_img;
 	}
-	public function setImg(int $strImg){
+	public function setImg(string $strImg){
 		$this->_user_img = $strImg;
 	}
 	
