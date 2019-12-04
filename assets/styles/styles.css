@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #D33F49 !important;
+}
+
+.navbar .logo {
+    color: white !important;
+}
+
+.navbar a {
+    color: #212529 !important;
+}
+
+footer p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    margin: 5px;
+}
+
+.btn-outline {
+    border: 1px solid white !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.btn-background {
+    background-color: white !important;
+    color: #D33F49 !important;
+    font-weight: bold !important;
+}
