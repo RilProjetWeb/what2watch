@@ -22,6 +22,25 @@ class Serie extends CI_Controller
         // echo $this->pagination->create_links();
 
         $arrSeries = $this->SerieManager_model->getAll();
+        $arrCat = $this->SerieManager_model->getCategories();
+        $arrSrc = $this->SerieManager_model->getSources();
+
+        // Recupération des catégories et chargement de la liste d'options
+        $options['objCat']  = array();
+        array_push($options['objCat'], '--');
+        foreach ($arrCat as $category) {
+            array_push($options['objCat'], $category['cat_lib']);
+        }
+
+        // Recupération des sources et chargement de la liste d'options
+        $options['objSrc']  = array();
+        array_push($options['objSrc'], '--');
+        foreach ($arrSrc as $source) {
+            array_push($options['objSrc'], $source['src_lib']);
+        }
+
+        $this->load->view('search', $options);
+
         $objSerie = new SerieClass_model;
         $data = array();
         foreach ($arrSeries as $arrDetSeries) {
