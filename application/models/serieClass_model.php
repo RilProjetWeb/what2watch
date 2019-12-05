@@ -1,6 +1,6 @@
 <?php
 
-class serie extends CI_Model
+class SerieClass_model extends CI_Model
 {
 
     private $_serie_id;
@@ -28,7 +28,7 @@ class serie extends CI_Model
     public function hydrate($arrData)
     {
         foreach ($arrData as $strAttrib => $strValue) {
-            $strMethodeName = "set" . ucfirst(str_replace("serie", "", $strAttrib));
+            $strMethodeName = "set" . ucfirst(str_replace("serie_", "", $strAttrib));
             if (method_exists($this, $strMethodeName)) {
                 $this->$strMethodeName($strValue);
             }
@@ -132,5 +132,10 @@ class serie extends CI_Model
 	public function setCreatorname(string $strCreatorname){
 		$this->_serie_creatorname = $strCreatorname;
 	}
-	
+
+	public function getResume($intNb = 100){
+		// Ajout des ...  seulement si le texte est plus long que le nombre de caractères demandés
+		$strEtc	= (strlen($this->getSummary())>$intNb)?"...":"";
+		return substr($this->getSummary(), 0, $intNb).$strEtc;
+	}
 }

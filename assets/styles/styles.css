@@ -1,3 +1,7 @@
+/*
+ HEADER / FOOTER
+*/
+
 .navbar {
     background-color: #D33F49 !important;
 }
@@ -10,15 +14,74 @@
     color: #212529 !important;
 }
 
+.btn {
+    margin: 5px;
+}
+
 footer p {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.btn {
-    margin: 5px;
+/*
+ SERIE COMPONENT
+*/
+
+.img-serie {
+    width: 15%;
+    height: 15%;
 }
+
+.img-src-serie {
+    width: 50px;
+}
+
+.article-serie {
+    display: flex;
+    flex-direction: inherit;
+    margin: 25px 300px;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+}
+
+.info-serie {
+    margin: 0 15px;
+    width: 100%;
+}
+
+.info-det-serie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.summary-serie {
+    text-align: justify;
+}
+
+.span-info-serie-age {
+    border: 1px solid;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.span-info-serie-year {
+    font-weight: bold;
+}
+
+.span-info-serie-creator {
+    font-style: italic;
+}
+
+
+
+/*
+ GENERAL APP
+*/
 
 .btn-outline {
     border: 1px solid white !important;
