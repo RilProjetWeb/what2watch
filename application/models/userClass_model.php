@@ -1,6 +1,6 @@
 <?php
-
-class user extends CI_Model
+defined('BASEPATH') or exit('No direct script access allowed');
+class userClass_model extends CI_Model
 {
 
     private $_user_id;
