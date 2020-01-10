@@ -78,6 +78,14 @@ footer p {
 }
 
 
+/*
+ SEARCH COMPONENT
+*/
+
+#frmSearchSerie {
+    display: flex;
+}
+
 
 /*
  GENERAL APP
@@ -93,4 +101,8 @@ footer p {
     background-color: white !important;
     color: #D33F49 !important;
     font-weight: bold !important;
+}
+
+.form-control {
+    margin: 10px;
 }
