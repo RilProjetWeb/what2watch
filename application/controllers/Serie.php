@@ -6,14 +6,13 @@ class Serie extends CI_Controller
     {
         parent::__construct();
         $this->load->model('SerieManager_model');
-        $this->load->model('SerieClass_model');
+		$this->load->model('SerieClass_model');
+		$this->load->view('header');
         // $this->load->library('pagination');
-
     }
 
     public function index()
     {
-        $this->load->view('header');
         // TODO pagination
         // $config['base_url'] = 'localhost/what2watch';
         // $config['total_rows'] = 13;
@@ -22,22 +21,12 @@ class Serie extends CI_Controller
         // echo $this->pagination->create_links();
 
         $arrSeries = $this->SerieManager_model->getAll();
-        $arrCat = $this->SerieManager_model->getCategories();
-        $arrSrc = $this->SerieManager_model->getSources();
 
         // Recupération des catégories et chargement de la liste d'options
-        $options['objCat']  = array();
-        array_push($options['objCat'], '--');
-        foreach ($arrCat as $category) {
-            array_push($options['objCat'], $category['cat_lib']);
-        }
+		$options['objCat'] = $this->getCategories(true);
 
         // Recupération des sources et chargement de la liste d'options
-        $options['objSrc']  = array();
-        array_push($options['objSrc'], '--');
-        foreach ($arrSrc as $source) {
-            array_push($options['objSrc'], $source['src_lib']);
-        }
+        $options['objSrc'] = $this->getSources(true);
 
         $this->load->view('search', $options);
 
@@ -47,13 +36,85 @@ class Serie extends CI_Controller
             $objSerie->hydrate($arrDetSeries);
             $data['objSerie'] = $objSerie;
             $this->load->view('serieComponent', $data);
-        }
+		}
+		
+		$this->load->view('footer');
 
-        $this->load->view('footer');
+    }
+
+    public function details($id)
+    {
+        $arrSerieById = $this->SerieManager_model->getSerieById($id);
+        $data = array();
+        $objSerie = new SerieClass_model;
+        $objSerie->hydrate($arrSerieById[0]);
+        $data['objSerie'] = $objSerie;
+		$this->load->view('detailsSerieComponent', $data);
+		
+		$this->load->view('footer');
+	}
+	
+	public function mySeries(){
+		
+	}
+
+    public function edit($id)
+    {
+
+        $arrSerieById = $this->SerieManager_model->getSerieById($id);
+        $data = array();
+        $objSerie = new SerieClass_model;
+        $objSerie->hydrate($arrSerieById[0]);
+        $data['objSerie'] = $objSerie;
+        $data['objCat'] = $this->getCategories(false);
+        $data['objSrc'] = $this->getSources(false);
+        $this->load->view('editSerie', $data);
+
+		$this->load->view('footer');
     }
 
     public function delete($id)
     {
         $this->SerieManager_model->delete($id);
+    }
+
+    public function addSerie()
+    {	
+		$data = array();
+        $data['objCat'] = $this->getCategories(true);
+        $data['objSrc'] = $this->getSources(true);
+		$this->load->view('addSerie', $data);
+		$this->load->view('footer');
+	}
+	
+	public function update(){
+		$this->SerieManager_model->update($_POST);
+		redirect('/');
+	}
+
+    public function getCategories($avecOption)
+    {
+        $arrCat = $this->SerieManager_model->getCategories();
+        $options = array();
+		if($avecOption){
+			array_push($options, '--Catégorie--');
+		}
+        foreach ($arrCat as $category) {
+            array_push($options, $category['cat_lib']);
+        }
+        return $options;
+    }
+
+    public function getSources($avecOption)
+    {
+        $arrSrc = $this->SerieManager_model->getSources();
+		$options = array();
+		if($avecOption){
+			array_push($options, '--Source--');
+		}
+        foreach ($arrSrc as $source) {
+            array_push($options, $source['src_lib']);
+        }
+        return $options;
     }
 }

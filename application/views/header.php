@@ -10,25 +10,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand logo" href="#">What2Watch</a>
+    <nav class="navbar sticky-top navbar-expand-lg">
+        <a class="navbar-brand logo" href="/what2watch/"><i class="material-icons">play_circle_filled</i>What2Watch</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="/what2watch/">Accueil</a>
+					<a class="nav-link" href="/what2watch/index.php/serie/mySeries">Mes séries</a>
+					<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
                 </li>
-            </ul>
-            <!-- TODO : si pas co -->
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-background my-2 my-sm-0" type="submit">Connexion</button>
-                <button class="btn btn-outline my-2 my-sm-0" type="submit">Inscription</button>        
-            </form>
-            <!-- TODO : si co -->
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-background my-2 my-sm-0" type="submit">Connexion</button>
-                <button class="btn btn-outline my-2 my-sm-0" type="submit">Inscription</button>        
-            </form>
+			</ul>
+			<a class="nav-link nav-profile" href="/what2watch/index.php/user/profile/">
+				<img class="img-profile" src="/what2watch/assets/images/atypical.png" alt="" />
+				Le Poto Rico
+			</a>
+			<a class="logo" href="/what2watch/index.php/user/signout/">
+				<i class="material-icons">input</i>
+			</a>
+			<?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] != "") { ?>
+				<a class="btn-background" href="#">Link</a>
+			<?php } else { ?>
+				<a class="btn btn-background" href="index.php/user/signin" role="button">Connexion</a>
+				<a class="btn btn-outline" href="index.php/user/signup" role="button">Inscription</a>
+			<?php } ?>
         </div>
     </nav>
 </head>

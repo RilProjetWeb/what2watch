@@ -133,7 +133,7 @@ class SerieClass_model extends CI_Model
 		$this->_serie_creatorname = $strCreatorname;
 	}
 
-	public function getResume($intNb = 100){
+	public function getResume($intNb = 250){
 		// Ajout des ...  seulement si le texte est plus long que le nombre de caractères demandés
 		$strEtc	= (strlen($this->getSummary())>$intNb)?"...":"";
 		return substr($this->getSummary(), 0, $intNb).$strEtc;

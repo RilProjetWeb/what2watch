@@ -9,11 +9,12 @@ class SerieManager_model extends CI_Model
 
     public function getAll()
     {
-        $this->db->select("serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid, cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img");
+        $this->db->select("serie_id, serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid, cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img");
         $this->db->from('serie s');
         $this->db->join('category c', 's.serie_catid=c.cat_id');
         $this->db->join('source src', 's.serie_srcid=src.src_id');
-        $this->db->join('user u', 's.serie_creator=u.user_id');
+		$this->db->join('user u', 's.serie_creator=u.user_id');
+		$this->db->order_by(1,'DESC');
 
         // Recherche par mots-clés
         if (isset($_POST['serie_name']) && $_POST['serie_name'] != '') {
@@ -69,7 +70,19 @@ class SerieManager_model extends CI_Model
 
         $query = $this->db->get();
         return $query->result('array');
-    }
+	}
+	
+	public function getSerieById($id)
+	{
+        $this->db->select("serie_id, serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid, cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img");
+        $this->db->from('serie s');
+        $this->db->join('category c', 's.serie_catid=c.cat_id');
+        $this->db->join('source src', 's.serie_srcid=src.src_id');
+        $this->db->join('user u', 's.serie_creator=u.user_id');
+		$this->db->where('serie_id', $id);
+		$query = $this->db->get();
+        return $query->result('array');
+	}
 
     public function add($object)
     {
@@ -78,7 +91,21 @@ class SerieManager_model extends CI_Model
 
     public function update($object)
     {
-        $this->db->update($object);
+		print_r($object);
+		
+		$data = array(
+			'serie_name' => $object['serie_name'],
+			'serie_summary' => $object['serie_summary'],
+			'serie_year' => $object['serie_year'],
+			'serie_nbseasons' => $object['serie_nbseasons'],
+			'serie_age' => $object['serie_age'],
+			'serie_catid' => $object['serie_catid']+1,
+			'serie_srcid' => $object['serie_srcid']+1,
+			'serie_img' => $object['serie_img']
+		 );
+
+		$this->db->where('serie_id', $object['serie_id']);
+		$this->db->update('serie', $data);
     }
 
     public function delete($id)
