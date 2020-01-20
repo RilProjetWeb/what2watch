@@ -1,20 +1,15 @@
-<html>
-<head>
-<title>My Form</title>
-</head>
-<body>
+<?php 
 
-<?php //echo validation_errors(); ?>
+$this->load->helper('form');
 
-<?php //echo form_open('form'); ?>
-<form method="post" action="http://localhost/What2Watch/index.php/user/logIn">
-<h5>Identifiant</h5>
-<input type="text" name="username" value="" size="50" />
-<h5>Mot de passe</h5>
-<input type="text" name="password" value="" size="50" />
-<div><input type="submit" value="Submit" value="Se connecter" /></div>
+echo form_open('UserSession/logIn');
 
-</form>
+echo form_label('Identifiant (pseudo ou adresse mail)', 'user_id');
+echo form_input(['name' => 'user_id', 'type' => 'text','class' => 'form-control']);
 
-</body>
-</html>
+echo form_label('Mot de passe', 'user_password');
+echo form_input(['name' => 'user_password','type' => 'password', 'class' => 'form-control']);
+
+echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-danger'], 'Connexion');
+
+echo form_close();

@@ -9,46 +9,65 @@ class User extends CI_Controller
         $this->load->model('UserClass_model');
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->library('session');
     }
-    public function signIn(){
+    public function profile($id){
         $this->load->view('header');
-        $this->load->view('signin');
-        $this->load->view('footer');
-    }
-    public function logIn($identifier,$pwd){
-        if(verifUser($identifier,$pwd)){
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('username','Username','required')
-        }
-    }
-    public function signOut(){
-        session_destroy();
-        $this->index();
-    }
-    public function index()
-    {
-        $this->load->view('header');
-        // TODO pagination
-        // $config['base_url'] = 'localhost/what2watch';
-        // $config['total_rows'] = 13;
-        // $config['per_page'] = 10;
-        // $this->pagination->initialize($config);
-        // echo $this->pagination->create_links();
 
-        $arrSeries = $this->SerieManager_model->getAll();
-        $objSerie = new SerieClass_model;
+        $objUser = new UserClass_model;
         $data = array();
-        foreach ($arrSeries as $arrDetSeries) {
-            $objSerie->hydrate($arrDetSeries);
-            $data['objSerie'] = $objSerie;
-            $this->load->view('serieComponent', $data);
-        }
+
+        $singleUser = $this->UserManager_model->getUserById($id);
+
+        $objUser->hydrate($singleUser);
+        $data['objUser'] = $objUser;
+        $this->load->view('profile', $data);
 
         $this->load->view('footer');
     }
+    public function userManager($srtKey){
+        $objUser= new UserClass_model;
+        $data= array();
 
+        $this->load->view('header');
+        $this->load->view('userTableHead');
+        $arrUser= $this->UserManager_model->getAllUsers($srtKey);
+        foreach($arrUser as $singleUser){
+            $objUser->hydrate($singleUser);
+            $data['objUser']=$objUser;
+            $this->load->view('userList',$data);       
+        }
+    }
+    public function createForm(){
+        $this->load->view('header');
+        $this->load->view('createForm');
+        $this->load->view('footer');
+    }
+    public function updateForm($id){
+        $this->load->view('header');
+
+        $objUser = new UserClass_model;
+        $data = array();
+
+        $singleUser = $this->UserManager_model->getUserById($id);
+
+        $objUser->hydrate($singleUser);
+        $data['objUser'] = $objUser;
+        $this->load->view('updateForm', $data);
+        $this->load->view('footer');
+    }
+    public function create(){
+        if ($this->UserManager_model->createUser($_POST['user_pseudo'],$_POST['user_password'],$_POST['user_name'],$_POST['user_firstname'],$_POST['user_mail'],$_POST['user_role'])) {
+            $this->userManager('ALL');
+        }
+    }
+    public function update(){
+        $this->UserManager_model->updateUser($_POST['user_id'],$_POST);
+        redirect('User/userManager/ALL');
+    }
     public function delete($id)
     {
-        $this->SerieManager_model->delete($id);
+        $this->UserManager_model->deleteUser($id);
+        redirect('/User/userManager/ALL');
     }
 }

@@ -5,16 +5,20 @@ class UserManager_model extends CI_Model
     public function __construct(){
 	}
 
-	public function getAllUsers(){
+	public function getAllUsers($orderBy){
 	/*Récupère tous les utilisateurs de la table user sans restrictions*/
 		//Requête: SELECT * FROM user;
-		$this->db->Select("*");
+		$this->db->Select("user.*,role_lib");
 		$this->db->From("user");
+		$this->db->Join("role","user_role=role_id");
+		if ($orderBy!='ALL') {
+			$this->db->order_by('user_'.$orderBy,'ASC');
+		}
 		$query=$this->db->get();
 		return $query->result();
 	}
 	public function getUserByIdentifier($identifier){
-	/*Récupère un utilisateur selon  l'adresse mail, le pseudo, ou l'identifiant en paramètre*/
+	/*Récupère un utilisateur selon  l'adresse mail ou le pseudo en paramètre*/
 		//Si $identifier est une chaîne de caractères..
 		if (is_string($identifier)) {
 			//Si $identifier contient un '@'..
@@ -25,45 +29,47 @@ class UserManager_model extends CI_Model
 				//..Sinon, le champs ($field) 'pseudo' sera selectionné dans la prochaine requête.
 				$field='pseudo';
 			}
-		}else{
-			//..Sinon, le champs ($field) 'id' sera selectionné dans la prochaine requête.
-			$field='id';
 		}
 		//Requête: SELECT * FROM user WHERE user_[..]=[..];
-		$this->db->Select("*");
+		$this->db->Select("*,role_lib");
 		$this->db->From("user");
+		$this->db->Join("role","user_role=role_id");
 		$this->db->where("user_".$field."='".$identifier."'");
+		$query=$this->db->get()->row();
+		return $query;
+	}
+	public function getUserById($id){
+	/*Récupère un utilisateur selon  l'identifiant en paramètre*/
+		//Requête: SELECT * FROM user WHERE user_[..]=[..];
+		$this->db->Select("*,role_lib");
+		$this->db->From("user");
+		$this->db->Join("role","user_role=role_id");
+		$this->db->where("user_id=".$id);
 		$query=$this->db->get()->row();
 		return $query;
 	}
 	public function verifUser($identifier,$pwd){
 	/*Vérifie si l'utilisateur est présent dans la bdd*/
 			//Récupération de l'utilisateur selon l'identificateur $identifier
-			$singleUser=$this->getUserByIdentifier($identifier);
-			//Si le pseudo de l'utilisateur ou son adresse mail match avec celui de l'utilisateur trouvé..
-			if ($identifier===(int)$singleUser->user_id||$identifier===$singleUser->user_pseudo||$identifier===$singleUser->user_mail) {
-				/*Vérification du mot de passe*/
-				//Si le mot de passe hashé match avec celui (hashé également) de l'utilisateur trouvé..
-				if(hash('sha256',hash('sha256',$pwd))==$this->db->query('Select user_password From user Where user_id='.$singleUser->user_id)->row('user_password')){
-					//retourner vrai
+			if ($this->getUserByIdentifier($identifier)!=null) {
+				if ($this->getUserByIdentifier($identifier)->user_password===hash('sha256', hash('sha256',$pwd))) {
 					return true;
-				}else{
-					//..Sinon, retrouner faux
-					return false;
 				}
 			}else{
-				//..Sinon, retourner faux
 				return false;
-			}	
+			}
 	}
-	public function updateUser($field,$data,$id){
+	public function updateUser($id,$data){
 	/*Modification d'un utilisateur dans la bdd*/
 		//Modification de la donnée ($data) du champs ($field), selon l'identifiant (id)
 		/*Tentative de modification du champs*/
+		unset($data['user_id']);
+		unset($data['btnSubmit']);
 		try {
-			$this->db->set("user_".$field,$data);
-			//ATTENTION:$id doit être un entier ici, et non une chaîne de caractère.
-			$this->db->where("user_id",$this->getUserByIdentifier($id));
+			foreach($data as $field => $newData){
+				$this->db->set($field,$newData);
+			}
+			$this->db->where("user_id",$this->getUserById($id)->user_id);
 			$this->db->update("user");
 			//retourner vrai si la requête est un succès
 			return true;
@@ -72,7 +78,7 @@ class UserManager_model extends CI_Model
 			return false;
 		} 
 	}
-	public function createUser($pseudo,$pwd,$name,$firstName,$mail,$role,$img){
+	public function createUser($pseudo,$pwd,$name,$firstName,$mail,$role){
 	/*Création d'un utilisateur de la bdd*/
 		//Si le pseudo et le mail n'ont pas été monopolisé par un autre utilisateur..
 		if (!$this->getUserByIdentifier($pseudo)&&!$this->getUserByIdentifier($mail)) {
@@ -84,16 +90,15 @@ class UserManager_model extends CI_Model
 								'user_name' => $name,
 								'user_firstname' => $firstName,
 								'user_mail' => $mail,
-								 'user_roleid' => $role,
-								'user_img' => $img);
+								 'user_role' => $role);
 				/*Requête:
-				INSERT INTO user ('user_pseudo','user_password','user_name','user_firstname','user_mail','user_roleid','user_img') VALUES ($pseudo,$pwd,$name,$firstName,$mail,$role,$img)*/
+				INSERT INTO user ('user_pseudo','user_password','user_name','user_firstname','user_mail','user_roleid') VALUES ($pseudo,$pwd,$name,$firstName,$mail,$role)*/
 				$this->db->insert('user', $data);
 				//Retouner vrai en cas de succès
-				return true;
+				return "Opération achevée avec succès: Utilisateur ajouté!";
 			}catch (Exception $e) {
 				//Retourner faux en cas d'échec
-				return false;
+				return "Echec de l'opération: l'addresse mail est déjà existant!";
 			}
 		}else{
 			//..Sinon, retourner faux.

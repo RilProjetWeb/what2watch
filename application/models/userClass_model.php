@@ -10,7 +10,7 @@ class userClass_model extends CI_Model
     private $_user_firstname;
     private $_user_mail;
     private $_user_role;
-    private $_user_rolename;
+    private $_user_role_lib;
     private $_user_img;
 
     // Constructeur
@@ -23,7 +23,10 @@ class userClass_model extends CI_Model
     public function hydrate($arrData)
     {
         foreach ($arrData as $strAttrib => $strValue) {
-            $strMethodeName = "set" . ucfirst(str_replace("user", "", $strAttrib));
+            $strMethodeName = "set" . ucfirst(str_replace("user_", "", $strAttrib));
+            if($strMethodeName=='setImg' && is_null($strValue)){
+            	$strValue="Spacer's_Choice_Logo.png";
+            }
             if (method_exists($this, $strMethodeName)) {
                 $this->$strMethodeName($strValue);
             }
@@ -79,13 +82,12 @@ class userClass_model extends CI_Model
 		$this->_user_role = $intRole;
 	}
 
-	public function getRolename():string{
-		return $this->_user_rolename;
+	public function getRole_lib():string{
+		return $this->_user_role_lib;
 	}
-	public function setRolename(string $strRolename){
-		$this->_user_rolename = $strRolename;
+	public function setRole_lib(string $strRolename){
+		$this->_user_role_lib = $strRolename;
 	}
-
 	public function getImg():string{
 		return $this->_user_img;
 	}
