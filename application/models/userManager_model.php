@@ -92,7 +92,7 @@ class UserManager_model extends CI_Model
 								'user_mail' => $mail,
 								 'user_role' => $role);
 				/*Requête:
-				INSERT INTO user ('user_pseudo','user_password','user_name','user_firstname','user_mail','user_roleid') VALUES ($pseudo,$pwd,$name,$firstName,$mail,$role)*/
+				INSERT INTO user ('user_pseudo','user_password','user_name','user_firstname','user_mail','user_role') VALUES ($pseudo,$pwd,$name,$firstName,$mail,$role)*/
 				$this->db->insert('user', $data);
 				//Retouner vrai en cas de succès
 				return "Opération achevée avec succès: Utilisateur ajouté!";
@@ -119,5 +119,13 @@ class UserManager_model extends CI_Model
 			return false;
 		}	
 	}
-    
+	
+	public function getRoles()
+    {
+        $this->db->select("*");
+        $this->db->from('role');
+
+        $query = $this->db->get();
+        return $query->result('array');
+    }
 }

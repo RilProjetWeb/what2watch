@@ -1,8 +1,8 @@
 <?php 
-
 $this->load->helper('form');
+$attributes = ['class' => 'container-edit', 'id' => 'updateUserform'];
 
-echo form_open('User/update');
+echo form_open('user/update', $attributes);
 
 echo form_input(['name' => 'user_id', 'type' => 'hidden','class' => 'form-control', 'value' => $objUser->getId()]);
 
@@ -21,10 +21,8 @@ echo form_input(['name' => 'user_mail','type' => 'text', 'class' => 'form-contro
 echo "<br>";
 
 echo form_label('Rôle à attribuer', 'user_role');
-$options = [1 => 'Administrateur',
-			2 => 'Modérateur',
-			3 => 'Utilisateur'];
-echo form_dropdown('user_role',$options, $objUser->getRole());
+echo form_dropdown(['name' => 'user_role', 'class' => 'form-control'], $objRole, $objUser->getRole());
+
 
 echo "<br>";
 

@@ -1,8 +1,9 @@
 <?php 
 
 $this->load->helper('form');
+$attributes = ['class' => 'container-edit', 'id' => 'signinform'];
 
-echo form_open('UserSession/logIn');
+echo form_open('userSession/login', $attributes);
 
 echo form_label('Identifiant (pseudo ou adresse mail)', 'user_id');
 echo form_input(['name' => 'user_id', 'type' => 'text','class' => 'form-control']);

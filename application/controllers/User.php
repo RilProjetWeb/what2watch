@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class User extends CI_Controller
 {
+    
     public function __construct()
     {
         parent::__construct();
@@ -39,8 +40,11 @@ class User extends CI_Controller
         }
     }
     public function signup(){
+        // Recupération des roles et chargement de la liste d'options
+        $options['objRole'] = $this->getRoles(true);
+
         $this->load->view('header');
-        $this->load->view('user/signup');
+        $this->load->view('user/signup', $options);
         $this->load->view('footer');
     }
     public function signin(){
@@ -53,11 +57,13 @@ class User extends CI_Controller
 
         $objUser = new UserClass_model;
         $data = array();
-
+     
         $singleUser = $this->UserManager_model->getUserById($id);
 
         $objUser->hydrate($singleUser);
         $data['objUser'] = $objUser;
+        $data['objRole'] = $this->getRoles(true);
+        
         $this->load->view('user/updateUserForm', $data);
         $this->load->view('footer');
     }
@@ -74,5 +80,18 @@ class User extends CI_Controller
     {
         $this->UserManager_model->deleteUser($id);
         redirect('/User/userManager/ALL');
+    }
+
+    public function getRoles($avecOption)
+    {
+        $arrRoles = $this->UserManager_model->getRoles();
+        $options = array();
+		if($avecOption){
+			array_push($options, '-- Rôle --');
+		}
+        foreach ($arrRoles as $role) {
+            array_push($options, $role['role_lib']);
+        }
+        return $options;
     }
 }
