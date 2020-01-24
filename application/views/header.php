@@ -14,26 +14,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <a class="navbar-brand logo" href="/what2watch/"><i class="material-icons">play_circle_filled</i>What2Watch</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-					<a class="nav-link" href="/what2watch/">Accueil</a>
-					<a class="nav-link" href="/what2watch/index.php/serie/mySeries">Mes séries</a>
-					<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
-                </li>
-			</ul>
-			<a class="nav-link nav-profile" href="/what2watch/index.php/user/profile/">
-				<img class="img-profile" src="/what2watch/assets/images/atypical.png" alt="" />
-				Le Poto Rico
-			</a>
-			<a class="logo" href="/what2watch/index.php/user/signout/">
-				<i class="material-icons">input</i>
-			</a>
-			<?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] != "") { ?>
-				<a class="btn-background" href="#">Link</a>
-			<?php } else { ?>
-				<a class="btn btn-background" href="index.php/user/signin" role="button">Connexion</a>
-				<a class="btn btn-outline" href="index.php/user/signup" role="button">Inscription</a>
-			<?php } ?>
+
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="/what2watch/">Accueil</a>
+							<?php if(!$this->session->userdata('id')) { ?>
+								<a class="nav-link" href="/what2watch/index.php/serie/mySeries">Mes séries</a>
+								<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
+							<?php } ?>
+						</li>
+					</ul>
+
+			<div class="div-header-right">
+				<?php 
+					if(!$this->session->userdata('id')){ ?>
+						<a class="nav-link nav-profile" href="/what2watch/index.php/user/profile/">
+							<img class="img-profile" src="/what2watch/assets/images/atypical.png" alt="" />
+							Le Poto Rico
+						</a>
+						<a class="logo" href="/what2watch/index.php/user/signout/">
+							<i class="material-icons">input</i>
+						</a>
+					<?php 
+					}else{ ?>
+						<a class="btn btn-background" href="index.php/user/signin" role="button">Connexion</a>
+						<a class="btn btn-outline" href="index.php/user/signup" role="button">Inscription</a>
+					<?php }
+				?>
+			</div>
         </div>
     </nav>
 </head>

@@ -64,6 +64,11 @@ footer p {
 	border-radius: 50px;
 }
 
+.div-header-right{
+    display: flex;
+    justify-content: flex-end;
+}
+
 /*
  SERIE COMPONENT
 */
