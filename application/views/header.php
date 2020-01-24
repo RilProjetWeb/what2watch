@@ -18,8 +18,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
 							<a class="nav-link" href="/what2watch/">Accueil</a>
-							<?php if(!$this->session->userdata('id')) { ?>
-								<a class="nav-link" href="/what2watch/index.php/serie/mySeries/<?php echo "1" ?>">Mes séries</a>
+							<?php if($this->session->userdata('user_id')) { ?>
+								<a class="nav-link" href="/what2watch/index.php/serie/mySeries/<?php echo $this->session->userdata('user_id') ?>">Mes séries</a>
 								<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
 								<!-- TODO Menu à afficher seulement pour les modérateurs -->
 								<a class="nav-link" href="/what2watch/index.php/serie/seriesToValidate">Séries à valider</a>
@@ -29,10 +29,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 			<div class="div-header-right">
 				<?php 
-					if(!$this->session->userdata('id')){ ?>
-						<a class="nav-link nav-profile" href="/what2watch/index.php/user/profile/">
-							<img class="img-profile" src="/what2watch/assets/images/atypical.png" alt="" />
-							Le Poto Rico
+					if($this->session->userdata('user_id')){ ?>
+						<a class="nav-link nav-profile" href="/what2watch/index.php/user/profile/<?php echo $this->session->userdata('user_id') ?>">
+							<img class="img-profile" src="/what2watch/assets/images/<?php echo $this->session->userdata('user_img') ?>" alt="" />
+							<?php echo $this->session->userdata('user_pseudo') ?>
 						</a>
 						<a class="logo" href="/what2watch/index.php/user/signout/">
 							<i class="material-icons">input</i>

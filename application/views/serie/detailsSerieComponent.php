@@ -23,7 +23,7 @@
 		<?php if($objSerie->getStatus()==1) { ?>
 			<div class="div-btn-actions-serie">
 				<!-- TODO afficher boutons si créateur, modérateur, admin -->
-				<?php if($objSerie->getCreator()==1 || $this->session->userdata('role')==1 || $this->session->userdata('role')==2){ ?>
+				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
 				<a class="btn btn-background" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
 				<a class="btn btn-background" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">delete</i></a>
 				<?php } ?>

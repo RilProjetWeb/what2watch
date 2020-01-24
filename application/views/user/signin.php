@@ -3,7 +3,7 @@
 $this->load->helper('form');
 $attributes = ['class' => 'container-general', 'id' => 'signinform'];
 
-echo form_open('userSession/login', $attributes);
+echo form_open('index.php/user/login', $attributes);
 
 echo form_label('Identifiant (pseudo ou adresse mail)', 'user_id');
 echo form_input(['name' => 'user_id', 'type' => 'text','class' => 'form-control']);
