@@ -1,7 +1,7 @@
 <?php 
 
 $this->load->helper('form');
-$attributes = ['class' => 'container-edit', 'id' => 'signupform'];
+$attributes = ['class' => 'container-general', 'id' => 'signupform'];
 
 echo form_open('User/create', $attributes);
 

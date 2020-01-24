@@ -8,18 +8,10 @@ class Serie extends CI_Controller
         $this->load->model('SerieManager_model');
 		$this->load->model('SerieClass_model');
 		$this->load->view('header');
-        // $this->load->library('pagination');
     }
 
     public function index()
     {
-        // TODO pagination
-        // $config['base_url'] = 'localhost/what2watch';
-        // $config['total_rows'] = 13;
-        // $config['per_page'] = 10;
-        // $this->pagination->initialize($config);
-        // echo $this->pagination->create_links();
-
         $arrSeries = $this->SerieManager_model->getAll();
 
         // Recupération des catégories et chargement de la liste d'options
@@ -42,6 +34,9 @@ class Serie extends CI_Controller
 
     }
 
+	/**
+	 * Page de détails d'une série
+	 */
     public function details($id)
     {
         $arrSerieById = $this->SerieManager_model->getSerieById($id);
@@ -54,11 +49,42 @@ class Serie extends CI_Controller
 		$this->load->view('footer');
 	}
 	
-	public function mySeries(){
-		
+	/**
+	 * Page des séries de l'utilisateur connecté
+	 */
+	public function mySeries($idUser){
+
+		$arrMySeries = $this->SerieManager_model->getMySeries($idUser);
+		$objSerie = new SerieClass_model;
+        $data = array();
+        foreach ($arrMySeries as $serie) {
+            $objSerie->hydrate($serie);
+            $data['objSerie'] = $objSerie;
+            $this->load->view('serie/serieComponent', $data);
+		}
+		$this->load->view('footer');
 	}
 
-    public function edit($id)
+	/**
+	 * Page des séries à valider pour un modérateur
+	 */
+	public function seriesToValidate(){
+
+		$arrMySeries = $this->SerieManager_model->getSeriesToValidate();
+		$objSerie = new SerieClass_model;
+        $data = array();
+        foreach ($arrMySeries as $serie) {
+            $objSerie->hydrate($serie);
+            $data['objSerie'] = $objSerie;
+            $this->load->view('serie/serieComponent', $data);
+		}
+		$this->load->view('footer');
+	}
+
+	/**
+	 * Page de modification d'un série avec formulaire pré-rempli
+	 */
+    public function editSerie($id)
     {
 
         $arrSerieById = $this->SerieManager_model->getSerieById($id);
@@ -73,11 +99,9 @@ class Serie extends CI_Controller
 		$this->load->view('footer');
     }
 
-    public function delete($id)
-    {
-        $this->SerieManager_model->delete($id);
-    }
-
+	/**
+	 * Page d'ajout d'une série avec formulaire vide
+	 */
     public function addSerie()
     {	
 		$data = array();
@@ -86,12 +110,43 @@ class Serie extends CI_Controller
 		$this->load->view('serie/addSerie', $data);
 		$this->load->view('footer');
 	}
+
+	/**
+	 * Validation d'une série par un modérateur
+	 */
+	public function validateSerie($idSerie){
+		$this->SerieManager_model->validateSerie($idSerie);
+		redirect('/');
+	}
+
+	/**
+	 * Appel à la requête d'ajout d'une série
+	 */
+	public function add(){
+		$this->SerieManager_model->add($_POST);
+		redirect('/');
+	}
 	
+	/**
+	 * Appel à la requête de mise à jour d'une série
+	 */
 	public function update(){
 		$this->SerieManager_model->update($_POST);
 		redirect('/');
 	}
 
+	/**
+	 * Appel à la requête d'ajout d'une série
+	 */
+	public function delete($id)
+    {
+		$this->SerieManager_model->delete($id);
+		redirect('/');
+    }
+
+	/**
+	 * Appel à la requête de récupération des catégories
+	 */
     public function getCategories($avecOption)
     {
         $arrCat = $this->SerieManager_model->getCategories();
@@ -105,6 +160,9 @@ class Serie extends CI_Controller
         return $options;
     }
 
+	/**
+	 * Appel à la requête de récupération des sources/plateformes
+	 */
     public function getSources($avecOption)
     {
         $arrSrc = $this->SerieManager_model->getSources();

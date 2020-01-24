@@ -1,6 +1,6 @@
 <?php 
 $this->load->helper('form');
-$attributes = ['class' => 'container-edit', 'id' => 'updateUserform'];
+$attributes = ['class' => 'container-general', 'id' => 'updateUserform'];
 
 echo form_open('user/update', $attributes);
 

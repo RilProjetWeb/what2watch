@@ -2,7 +2,7 @@
 
 $this->load->helper('form');
 
-echo form_open('index.php/serie/update', ['id' => 'frmAddSerie']);
+echo form_open('index.php/serie/add', ['id' => 'frmAddSerie']);
 
 echo form_input(['name' => 'serie_name', 'class' => 'form-control', 'placeholder' => 'Nom', 'required' => 'required']);
 

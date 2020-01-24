@@ -135,6 +135,14 @@ footer p {
 	justify-content: flex-end;
 }
 
+.published{
+	border: 1px solid #D33F49;
+}
+
+.unpublished{
+	border: 2px solid green;
+}
+
 /*
  SEARCH COMPONENT
 */
@@ -142,13 +150,6 @@ footer p {
 #frmSearchSerie {
 	display: flex;
 	margin-top: 20px !important;
-}
-
-/*
- EDIT PAGE
-*/
-.container-edit{
-	margin: 25px 300px;
 }
 
 /*
@@ -163,6 +164,10 @@ html, body {
 body {
 	display : table;
 	width: 100%;
+}
+
+.container-general{
+	margin: 25px 300px;
 }
 
 h3{

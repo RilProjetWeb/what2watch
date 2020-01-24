@@ -1,7 +1,7 @@
 <article class="article-serie">
     <img class="img-serie" alt="<?php echo $objSerie->getName(); ?>" src="/what2watch/assets/images/<?php echo $objSerie->getImg(); ?>" />
     <div class="info-serie">
-        <h3 class="creator"><?php echo $objSerie->getName(); ?></h3>
+        <h3><?php echo $objSerie->getName(); ?></h3>
         <h6 class="summary-serie"> <?php echo $objSerie->getSummary(); ?> </h6>
         <div class="info-det-serie">
             <span class="span-info-serie-year"><?php echo $objSerie->getYear(); ?> </span>
@@ -19,6 +19,20 @@
             <span class="span-info-serie-age"><?php echo $objSerie->getAge(); ?>+ </span>
             <span class="span-info-serie"><?php echo $objSerie->getNbseasons(); ?> saisons </span>
         </div>
-        <p class="span-info-serie-creator">Créé par : <?php echo $objSerie->getCreatorname(); ?></p>
+		<p class="span-info-serie-creator">Créé par : <?php echo $objSerie->getCreatorname(); ?></p>
+		<?php if($objSerie->getStatus()==1) { ?>
+			<div class="div-btn-actions-serie">
+				<!-- TODO afficher boutons si créateur, modérateur, admin -->
+				<?php if($objSerie->getCreator()==1 || $this->session->userdata('role')==1 || $this->session->userdata('role')==2){ ?>
+				<a class="btn btn-background" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
+				<a class="btn btn-background" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">delete</i></a>
+				<?php } ?>
+			</div>
+		<?php } else {?>
+			<div class="div-btn-actions-serie">
+				<a class="btn btn-outline" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">close</i></a>
+				<a class="btn btn-background" href="/what2watch/index.php/serie/validateSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">check</i></a>
+			</div>
+		<?php } ?>
     </div>
 </article>

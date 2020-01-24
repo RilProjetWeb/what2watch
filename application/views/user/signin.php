@@ -1,7 +1,7 @@
 <?php 
 
 $this->load->helper('form');
-$attributes = ['class' => 'container-edit', 'id' => 'signinform'];
+$attributes = ['class' => 'container-general', 'id' => 'signinform'];
 
 echo form_open('userSession/login', $attributes);
 
