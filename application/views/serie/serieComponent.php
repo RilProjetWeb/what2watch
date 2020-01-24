@@ -21,7 +21,7 @@
         </div>
 		<p class="span-info-serie-creator">Créé par : <?php echo $objSerie->getCreatorname(); ?></p>
 		<div class="div-btn-actions-serie">
-			<a class="btn btn-outline" href="index.php/serie/details/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">subject</i>Details</a>
+			<a class="btn btn-outline" href="index.php/serie/details/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">subject</i>Détails</a>
 			<a class="btn btn-background" href="index.php/serie/edit/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
 		</div>
 	</div>

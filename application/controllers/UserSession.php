@@ -15,7 +15,7 @@ class UserSession extends CI_Controller
     }
         public function signIn(){
         $this->load->view('header');
-        $this->load->view('signin');
+        $this->load->view('user/signin');
         $this->load->view('footer');   
     }  
     public function signOut(){

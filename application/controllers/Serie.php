@@ -28,14 +28,14 @@ class Serie extends CI_Controller
         // Recupération des sources et chargement de la liste d'options
         $options['objSrc'] = $this->getSources(true);
 
-        $this->load->view('search', $options);
+        $this->load->view('serie/search', $options);
 
         $objSerie = new SerieClass_model;
         $data = array();
         foreach ($arrSeries as $arrDetSeries) {
             $objSerie->hydrate($arrDetSeries);
             $data['objSerie'] = $objSerie;
-            $this->load->view('serieComponent', $data);
+            $this->load->view('serie/serieComponent', $data);
 		}
 		
 		$this->load->view('footer');
@@ -49,7 +49,7 @@ class Serie extends CI_Controller
         $objSerie = new SerieClass_model;
         $objSerie->hydrate($arrSerieById[0]);
         $data['objSerie'] = $objSerie;
-		$this->load->view('detailsSerieComponent', $data);
+		$this->load->view('serie/detailsSerieComponent', $data);
 		
 		$this->load->view('footer');
 	}
@@ -68,7 +68,7 @@ class Serie extends CI_Controller
         $data['objSerie'] = $objSerie;
         $data['objCat'] = $this->getCategories(false);
         $data['objSrc'] = $this->getSources(false);
-        $this->load->view('editSerie', $data);
+        $this->load->view('serie/editSerie', $data);
 
 		$this->load->view('footer');
     }
@@ -83,7 +83,7 @@ class Serie extends CI_Controller
 		$data = array();
         $data['objCat'] = $this->getCategories(true);
         $data['objSrc'] = $this->getSources(true);
-		$this->load->view('addSerie', $data);
+		$this->load->view('serie/addSerie', $data);
 		$this->load->view('footer');
 	}
 	

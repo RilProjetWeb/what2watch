@@ -21,7 +21,7 @@ class User extends CI_Controller
 
         $objUser->hydrate($singleUser);
         $data['objUser'] = $objUser;
-        $this->load->view('profile', $data);
+        $this->load->view('user/profile', $data);
 
         $this->load->view('footer');
     }
@@ -30,7 +30,7 @@ class User extends CI_Controller
         $data= array();
 
         $this->load->view('header');
-        $this->load->view('userTableHead');
+        $this->load->view('user/userTableHead');
         $arrUser= $this->UserManager_model->getAllUsers($srtKey);
         foreach($arrUser as $singleUser){
             $objUser->hydrate($singleUser);
@@ -38,12 +38,17 @@ class User extends CI_Controller
             $this->load->view('userList',$data);       
         }
     }
-    public function createForm(){
+    public function signup(){
         $this->load->view('header');
-        $this->load->view('createForm');
+        $this->load->view('user/signup');
         $this->load->view('footer');
     }
-    public function updateForm($id){
+    public function signin(){
+        $this->load->view('header');
+        $this->load->view('user/signin');
+        $this->load->view('footer');
+    }
+    public function updateUserForm($id){
         $this->load->view('header');
 
         $objUser = new UserClass_model;
@@ -53,7 +58,7 @@ class User extends CI_Controller
 
         $objUser->hydrate($singleUser);
         $data['objUser'] = $objUser;
-        $this->load->view('updateForm', $data);
+        $this->load->view('user/updateUserForm', $data);
         $this->load->view('footer');
     }
     public function create(){

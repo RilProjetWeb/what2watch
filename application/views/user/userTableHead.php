@@ -1,4 +1,4 @@
-    <button type="button" class="btn btn-success btn-lg"><a style="color: white;" href="http://localhost/What2Watch/index.php/User/createForm">Ajouter un utilisateur</a></button>
+    <button type="button" class="btn btn-success btn-lg"><a style="color: white;" href="http://localhost/What2Watch/index.php/User/signup">Ajouter un utilisateur</a></button>
 <div class="container">
         <div class="table-wrapper">			
             <table class="table table-bordered">
