@@ -3,16 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class UserManager_model extends CI_Model
 {
     public function __construct(){
+    	$this->load->library('encryption');
 		$this->load->database();
 	}	
-	
 	/**
 	 * Vérifie si l'utilisateur est présent dans la bdd$
 	 */
 	public function verifUser($identifier,$pwd){
 		//Récupération de l'utilisateur selon l'identificateur $identifier
 		if ($this->getUserByIdentifier($identifier)!=null) {
-			if ($this->getUserByIdentifier($identifier)->user_password===$pwd) {
+			if ($this->encryption->decrypt($this->getUserByIdentifier($identifier)->user_password)===$pwd) {
 				return true;
 			}
 		}else{
@@ -79,6 +79,9 @@ class UserManager_model extends CI_Model
 		unset($data['btnSubmit']);
 		try {
 			foreach($data as $field => $newData){
+				if($field==='user_password'){
+					$newData=$this->encryption->encrypt($newData);
+				}
 				$this->db->set($field,$newData);
 			}
 			$this->db->where("user_id",$this->getUserById($id)->user_id);
@@ -88,7 +91,7 @@ class UserManager_model extends CI_Model
 		} catch (Exception $e) {
 			//retourner faux si la requête est un échec
 			return false;
-		} 
+		}
 	}
 
 	/**
@@ -101,7 +104,7 @@ class UserManager_model extends CI_Model
 			try {
 				//Tableau dont les index 
 				$data = array('user_pseudo' => $pseudo,
-								'user_password' => hash('sha256', hash('sha256',$pwd)),
+								'user_password' => $this->encryption->encrypt($pwd),
 								'user_name' => $name,
 								'user_firstname' => $firstName,
 								'user_mail' => $mail,
@@ -110,10 +113,10 @@ class UserManager_model extends CI_Model
 				INSERT INTO user ('user_pseudo','user_password','user_name','user_firstname','user_mail','user_role') VALUES ($pseudo,$pwd,$name,$firstName,$mail,$role)*/
 				$this->db->insert('user', $data);
 				//Retouner vrai en cas de succès
-				return "Opération achevée avec succès: Utilisateur ajouté!";
+				return true;
 			}catch (Exception $e) {
 				//Retourner faux en cas d'échec
-				return "Echec de l'opération: l'addresse mail est déjà existant!";
+				return false;
 			}
 		}else{
 			//..Sinon, retourner faux.

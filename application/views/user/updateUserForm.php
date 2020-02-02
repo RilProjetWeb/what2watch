@@ -1,8 +1,8 @@
 <?php 
-$this->load->helper('form');
-$attributes = ['class' => 'container-general', 'id' => 'updateUserform'];
 
-echo form_open('user/update', $attributes);
+$this->load->helper('form');
+
+echo form_open('index.php/User/update');
 
 echo form_input(['name' => 'user_id', 'type' => 'hidden','class' => 'form-control', 'value' => $objUser->getId()]);
 
@@ -21,14 +21,16 @@ echo form_input(['name' => 'user_mail','type' => 'text', 'class' => 'form-contro
 echo "<br>";
 
 echo form_label('Rôle à attribuer', 'user_role');
-echo form_dropdown(['name' => 'user_role', 'class' => 'form-control'], $objRole, $objUser->getRole());
-
+$options = [1 => 'Administrateur',
+			2 => 'Modérateur',
+			3 => 'Utilisateur'];
+echo form_dropdown('user_role',$options, $objUser->getRole());
 
 echo "<br>";
-
-//echo form_label('Image de profile', 'user_img');
-//echo form_input(['name' => 'user_img','type' => 'file', 'class' => 'form-control']);
 
 echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-success'], 'Valider');
 
 echo form_close();
+?>
+
+<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo base_url(); ?>index.php/User/userManager/ALL'"><a style="color: white;">Annuler</a></button>

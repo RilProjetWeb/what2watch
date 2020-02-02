@@ -1,9 +1,8 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+	defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/what2watch/assets/styles/styles.css">
@@ -21,9 +20,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<?php if($this->session->userdata('user_id')) { ?>
 								<a class="nav-link" href="/what2watch/index.php/serie/mySeries/<?php echo $this->session->userdata('user_id') ?>">Mes séries</a>
 								<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
-								<!-- TODO Menu à afficher seulement pour les modérateurs -->
 								<a class="nav-link" href="/what2watch/index.php/serie/seriesToValidate">Séries à valider</a>
 							<?php } ?>
+							<?php if($this->session->userdata('user_role')==1){ echo "<a class='nav-link' href='/what2watch/index.php/user/usermanager/ALL'>Gestion des utilisateurs</a>"; } ?>
 						</li>
 					</ul>
 

@@ -25,7 +25,7 @@ class userClass_model extends CI_Model
         foreach ($arrData as $strAttrib => $strValue) {
             $strMethodeName = "set" . ucfirst(str_replace("user_", "", $strAttrib));
             if($strMethodeName=='setImg' && is_null($strValue)){
-            	$strValue="Spacer's_Choice_Logo.png";
+            	$strValue="Spacers_Choice_Logo.png";
             }
             if (method_exists($this, $strMethodeName)) {
                 $this->$strMethodeName($strValue);
