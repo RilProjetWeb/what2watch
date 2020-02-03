@@ -11,4 +11,4 @@
 	echo form_close();
 ?>
 
-<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo base_url(); ?>index.php/User/userManager/ALL'"><a style="color: white;">Annuler</a></button>
+<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'"><a style="color: white;">Annuler</a></button>

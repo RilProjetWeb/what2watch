@@ -21,7 +21,7 @@
             <span class="span-info-serie-age"><?php echo $objSerie->getAge(); ?>+ </span>
             <span class="span-info-serie"><?php echo $objSerie->getNbseasons(); ?> saison(s) </span>
         </div>
-		<p class="span-info-serie-creator">Créé par : <?php echo $objSerie->getCreatorname(); ?></p>
+		<p class="span-info-serie-creator">Créé par : <a href="/what2watch/index.php/user/profile/<?php echo $objSerie->getCreator(); ?>"><?php echo $objSerie->getCreatorname(); ?></a></p>
 		<?php if($objSerie->getStatus()==1) { ?>
 			<div class="div-btn-actions-serie">
 				<!-- TODO afficher boutons si créateur, modérateur, admin -->

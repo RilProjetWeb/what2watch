@@ -11,19 +11,19 @@ class User extends CI_Controller
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->library('session');
+        $this->load->view('Header');
 	}
 
 	public function signin(){
-        $this->load->view('header');
         $this->load->view('user/signin');
         $this->load->view('footer');
 	}
 
 	public function signup(){
-        $options['objRole'] = $this->getRoles(true);
-
-        $this->load->view('header');
-        $this->load->view('user/signup', $options);
+        foreach ($this->UserManager_model->getRoles() as $key => $value) {
+            $data['roleOptions'][$value['role_id']]=$value['role_lib'];
+        }
+        $this->load->view('user/signup', $data);
         $this->load->view('footer');
 	}
 	
@@ -51,13 +51,13 @@ class User extends CI_Controller
 			$this->session->set_userdata($user);
             redirect('index.php/user/profile/'.$this->session->userdata['user_id']);
         }else{
-            echo "Erreur: identifiant ou mot de passe incorrect";
+            $data=['heading'=>"Echec de l'identification",'message'=>'(Identifiant ou mot de passe incorrect)'];
+            $this->load->view('errors/cli/error_404',$data);
+            $this->load->view('footer');
         }
     }
 
     public function profile($id){
-        $this->load->view('header');
-
         $objUser = new UserClass_model;
         $data = array();
 
@@ -75,7 +75,6 @@ class User extends CI_Controller
                 $objUser= new UserClass_model;
                 $data= array();
 
-                $this->load->view('header');
                 $this->load->view('user/userTableHead');
                 $arrUser= $this->UserManager_model->getAllUsers($srtKey);
                 foreach($arrUser as $singleUser){
@@ -84,7 +83,6 @@ class User extends CI_Controller
                     $this->load->view('user/userList',$data);       
                 }
             }else{
-                $this->load->view('header');
                 $this->load->view('accessDenied');
                 $this->load->view('footer');
             }
@@ -95,13 +93,14 @@ class User extends CI_Controller
         if ($this->UserManager_model->createUser($_POST['user_pseudo'],$_POST['user_password'],$_POST['user_name'],$_POST['user_firstname'],$_POST['user_mail'],$_POST['user_role'])) {
             redirect('index.php/user/usermanager/ALL');
         }else{
-            echo "Erreur: votre compte n'a pas peu être crée. Votre pseudo ou votre email est déjà utilisé";
+            $data=['heading'=>"Echec de la création du compte",'message'=>'(Pseudo ou mot de passe déjà utilisé)'];
+            $this->load->view('errors/cli/error_404',$data);
+            $this->load->view('footer');
         }
     }
 
     public function updateUser($id){
             if(isset($this->session->userdata['user_id'])&&($this->session->userdata['user_id']==$id||$this->session->userdata['user_role']==1)){
-                $this->load->view('header');
 
                 $objUser = new UserClass_model;
                 $data = array();
@@ -113,14 +112,12 @@ class User extends CI_Controller
                 $this->load->view('user/updateUserForm', $data);
                 $this->load->view('footer');
             }else{
-                $this->load->view('header');
                 $this->load->view('accessDenied');
                 $this->load->view('footer');
             }
     }
 
     public function updateUserPassword($id){
-        $this->load->view('header');
         $data['userId']=$id;
         $this->load->view('user/updateUserPaswordForm',$data);
         $this->load->view('footer');
@@ -128,12 +125,10 @@ class User extends CI_Controller
 
     public function updateUserImage($id){
         if(isset($this->session->userdata['user_id'])&&$this->session->userdata['user_id']==$id){
-            $this->load->view('header');
             $data['userId']=$id;
             $this->load->view('user/changeUserImage',$data);
             $this->load->view('footer');
         }else{
-            $this->load->view('header');
             $this->load->view('accessDenied');
             $this->load->view('footer');
         }
@@ -157,13 +152,20 @@ class User extends CI_Controller
                     $this->UserManager_model->updateUser($_POST['user_id'],$_POST);
                     redirect('index.php/User/profile/'.$_POST['user_id']);
                 }else{
-                    echo "Erreur: Le mot de passe de confirmation ne correspond pas au nouveau mot de passe!";
+                    $data=['heading'=>"Echec du changement de mot de passe",'message'=>'(Le mot de passe de confirmation ne correspond pas au nouveau mot de passe!)'];
+                    $this->load->view('errors/cli/error_404',$data);
+                    $this->load->view('footer');
                 }
             }else{
-                echo "Erreur: Le nouveau mot de passe entré est similaire à l'ancien mot de passe!";
+                $data=['heading'=>"Echec du changement de mot de passe",'message'=>"(Le nouveau mot de passe entré est similaire à l'ancien mot de passe!)"];
+                $this->load->view('errors/cli/error_404',$data);
+                $this->load->view('footer');
             }
         }else{
-            echo "Erreur: L'ancien mot de passe entré est érroné!";
+            echo "Erreur: ";
+            $data=['heading'=>"Echec du changement de mot de passe",'message'=>"(L'ancien mot de passe entré est érroné!)"];
+            $this->load->view('errors/cli/error_404',$data);
+            $this->load->view('footer');
         }
     }
 
@@ -174,7 +176,6 @@ class User extends CI_Controller
     }
 
     public function warning($op, $userId){
-        $this->load->view('header');
         $data=['op'=>$op, 'userId'=>$userId, 'pseudo'=>$this->UserManager_model->getUserById($userId)->user_pseudo]; 
 
         $this->load->view('warning',$data);

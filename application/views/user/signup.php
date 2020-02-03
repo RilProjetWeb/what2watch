@@ -21,13 +21,13 @@ echo form_label('Mot de passe', 'user_password');
 echo form_input(['name' => 'user_password','type' => 'password', 'class' => 'form-control']);
 
 echo "<br>";
+
 if(isset($this->session->userdata['user_id'])&&$this->session->userdata['user_role']==1){
 	echo form_label('Rôle à attribuer', 'user_role');
-	echo form_dropdown(['name' => 'user_role', 'class' => 'form-control'], $objRole);	
+	echo form_dropdown('user_role',$roleOptions,3);	
 }else{
-	echo form_hidden('user_role',$objRole[3]);
+	echo form_hidden('user_role',3);
 }
-
 
 
 echo "<br>";
