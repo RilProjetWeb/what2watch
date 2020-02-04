@@ -180,6 +180,7 @@ h3{
 
 .btn-outline {
 	display: flex !important;
+	justify-content: center;
 	border: 1px solid white !important;
 	background-color:  #D33F49 !important;
     color: white !important;
@@ -188,6 +189,7 @@ h3{
 
 .btn-background {
 	display: flex !important;
+	justify-content: center;
     background-color: white !important;
     color: #D33F49 !important;
     font-weight: bold !important;

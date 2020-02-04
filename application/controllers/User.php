@@ -49,7 +49,7 @@ class User extends CI_Controller
 			);
 
 			$this->session->set_userdata($user);
-            redirect('index.php/user/profile/'.$this->session->userdata['user_id']);
+            redirect('/');
         }else{
             $data=['heading'=>"Echec de l'identification",'message'=>'(Identifiant ou mot de passe incorrect)'];
             $this->load->view('errors/cli/error_404',$data);
@@ -75,8 +75,8 @@ class User extends CI_Controller
                 $objUser= new UserClass_model;
                 $data= array();
 
-                $this->load->view('user/userTableHead');
-                $arrUser= $this->UserManager_model->getAllUsers($srtKey);
+				$this->load->view('user/userTableHead');
+				$arrUser= $this->UserManager_model->getAllUsers($srtKey);
                 foreach($arrUser as $singleUser){
                     $objUser->hydrate($singleUser);
                     $data['objUser']=$objUser;
