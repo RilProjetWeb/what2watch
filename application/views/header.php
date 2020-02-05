@@ -23,9 +23,17 @@
 							<?php if($this->session->userdata('user_id')) { ?>
 								<a class="nav-link" href="/what2watch/index.php/serie/mySeries/<?php echo $this->session->userdata('user_id') ?>">Mes séries</a>
 								<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
-								<a class="nav-link" href="/what2watch/index.php/serie/seriesToValidate">Séries à valider</a>
 							<?php } ?>
-							<?php if($this->session->userdata('user_role')==1){ echo "<a class='nav-link' href='/what2watch/index.php/user/usermanager/ALL'>Gestion des utilisateurs</a>"; } ?>
+							<?php 
+								/** Si le rôle de l'utilsateur connecté est modérateur : afficher l'onglet "Séries à valider" */
+								if($this->session->userdata('user_role')==2) { 
+									echo "<a class='nav-link' href='/what2watch/index.php/serie/seriesToValidate'>Séries à valider</a>"; 
+								} 
+								/** Si le rôle de l'utilsateur connecté est administrateur : afficher l'onglet "Gestion des utilisateurs" */
+								if($this->session->userdata('user_role')==1) { 
+									echo "<a class='nav-link' href='/what2watch/index.php/user/usermanager/ALL'>Gestion des utilisateurs</a>"; 
+								} 
+							?>
 						</li>
 					</ul>
 
@@ -41,8 +49,8 @@
 						</a>
 					<?php 
 					}else{ ?>
-						<a class="btn btn-background" href="/what2watch/index.php/user/signin" role="button">Connexion</a>
-						<a class="btn btn-outline" href="/what2watch/index.php/user/signup" role="button">Inscription</a>
+						<a class="btn btn-primary" href="/what2watch/index.php/user/signin" role="button">Connexion</a>
+						<a class="btn btn-secondary" href="/what2watch/index.php/user/signup" role="button">Inscription</a>
 					<?php }
 				?>
 			</div>

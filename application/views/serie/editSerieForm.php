@@ -22,7 +22,7 @@ echo form_dropdown(['name' => 'serie_srcid','class' => 'form-control', 'required
 
 echo form_upload(['name' => 'serie_img','class' => 'form-control-file', 'required' => 'required']);
 
-echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-outline'], 'Valider');
+echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');
 
 echo form_close();
 

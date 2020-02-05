@@ -16,7 +16,7 @@ echo form_dropdown(['name' => 'serie_cat', 'class' => 'form-control'], $objCat);
 
 echo form_dropdown(['name' => 'serie_src', 'class' => 'form-control'], $objSrc);
 
-echo form_submit(['name' => 'btnSubmit', 'class' => 'btn btn-danger'], 'Rechercher');
+echo form_submit(['name' => 'btnSubmit', 'class' => 'btn btn-secondary'], 'Rechercher');
 
 echo form_close();
 ?>

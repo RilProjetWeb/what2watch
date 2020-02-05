@@ -1,3 +1,4 @@
+<div class="container-general">
 <?php 
 
 $this->load->helper('form');
@@ -34,13 +35,18 @@ if (isset($this->session->userdata['user_id'])&&$this->session->userdata['user_r
 	echo form_hidden('user_role',3);
 }
 
-
 echo "<br>";
 
-echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-success'], 'Valider');
+/**$js = 'onClick="location.href='?><?php echo $_SERVER['HTTP_REFERER']; ?>';*/
+
+
+
+echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');
+//echo form_button(['name' => 'btnBack','class' => 'btn btn-primary'], 'Annuler', $js);
 
 echo form_close();
 ?>
-
-
-<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'"><a style="color: white;">Annuler</a></button>
+<!-- TODO -->
+<!-- <a class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>" role="button">Annuler</a>
+<a type="button" class="btn btn-primary" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'">Annuler</a> -->
+</div>

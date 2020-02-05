@@ -24,14 +24,14 @@
 			<div class="div-btn-actions-serie">
 				<!-- TODO afficher boutons si créateur, modérateur, admin -->
 				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
-				<a class="btn btn-background" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
-				<a class="btn btn-background" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">delete</i></a>
+				<a class="btn btn-primary" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
+				<a class="btn btn-primary" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">delete</i></a>
 				<?php } ?>
 			</div>
 		<?php } else {?>
 			<div class="div-btn-actions-serie">
-				<a class="btn btn-outline" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">close</i></a>
-				<a class="btn btn-background" href="/what2watch/index.php/serie/validateSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">check</i></a>
+				<a class="btn btn-secondary" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">close</i></a>
+				<a class="btn btn-primary" href="/what2watch/index.php/serie/validateSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">check</i></a>
 			</div>
 		<?php } ?>
     </div>

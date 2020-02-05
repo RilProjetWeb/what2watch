@@ -178,7 +178,7 @@ h3{
 	margin: 0 10px;
 }
 
-.btn-outline {
+.btn-secondary {
 	display: flex !important;
 	justify-content: center;
 	border: 1px solid white !important;
@@ -187,12 +187,23 @@ h3{
     font-weight: bold !important;
 }
 
-.btn-background {
+.btn-secondary:hover {
+	color: #212529 !important;
+	border: 1px solid #212529 !important;
+}
+
+.btn-primary {
 	display: flex !important;
 	justify-content: center;
+	border: 1px solid #D33F49 !important;
     background-color: white !important;
     color: #D33F49 !important;
     font-weight: bold !important;
+}
+
+.btn-primary:hover {
+	color: #212529 !important;
+	border: 1px solid #212529 !important;
 }
 
 .form-control {
