@@ -15,7 +15,7 @@
 					<td>".form_radio('user_img','UDL_Logo.png')."<img style='margin: auto; height: 150px; width: 180px' src='/what2watch/assets/images/profile/UDL_Logo.png'>"."</td>
 				</tr>
 			</table>";
-	
+
 	echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-success'], 'Valider');
 	
 	echo form_close();

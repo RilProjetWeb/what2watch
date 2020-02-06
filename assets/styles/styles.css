@@ -16,6 +16,10 @@
 .logo i{
 	margin-right: 0px;
 	color: #212529;
+	font-size: 36px;
+}
+
+.logo i:hover{
 	font-size: 40px;
 }
 
@@ -55,6 +59,7 @@ footer p {
 
 .nav-profile:hover{
 	border: inherit !important;
+	font-size: 18px;
 }
 
 .img-profile{
@@ -212,4 +217,9 @@ h3{
 
 .form-control-file{
 	margin: 10px;
+}
+
+.div-btn-end {
+	display: flex;
+    justify-content: flex-end;
 }

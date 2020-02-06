@@ -106,8 +106,12 @@ class User extends CI_Controller
                 $data = array();
 
                 $singleUser = $this->UserManager_model->getUserById($id);
-
                 $objUser->hydrate($singleUser);
+
+                foreach ($this->UserManager_model->getRoles() as $key => $value) {
+                    $data['roleOptions'][$value['role_id']]=$value['role_lib'];
+                }
+
                 $data['objUser'] = $objUser;
                 $this->load->view('user/updateUserForm', $data);
                 $this->load->view('footer');

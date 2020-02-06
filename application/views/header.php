@@ -45,7 +45,7 @@
 							<?php echo $this->session->userdata('user_pseudo') ?>
 						</a>
 						<a class="logo" href="/what2watch/index.php/user/signout/">
-							<i class="material-icons">input</i>
+							<i class="material-icons">power_settings_new</i>
 						</a>
 					<?php 
 					}else{ ?>

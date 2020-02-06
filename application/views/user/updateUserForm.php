@@ -27,26 +27,15 @@ echo "<br>";
 
 if (isset($this->session->userdata['user_id'])&&$this->session->userdata['user_role']==1) {
 	echo form_label('Rôle à attribuer', 'user_role');
-	$options = [1 => 'Administrateur',
-				2 => 'Modérateur',
-				3 => 'Utilisateur'];
-	echo form_dropdown('user_role',$options, $objUser->getRole());
+	echo form_dropdown(['name' => 'user_role','class' => 'form-control', 'required' => 'required'], $roleOptions, $objUser->getRole());
 }else{
 	echo form_hidden('user_role',3);
 }
-
-echo "<br>";
-
-/**$js = 'onClick="location.href='?><?php echo $_SERVER['HTTP_REFERER']; ?>';*/
-
-
-
-echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');
-//echo form_button(['name' => 'btnBack','class' => 'btn btn-primary'], 'Annuler', $js);
-
-echo form_close();
 ?>
-<!-- TODO -->
-<!-- <a class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>" role="button">Annuler</a>
-<a type="button" class="btn btn-primary" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'">Annuler</a> -->
+<div class="div-btn-end">
+	<?php echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');
+   		  echo form_close();
+	?>
+	<a type="button" class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Annuler</a>
+</div>
 </div>
