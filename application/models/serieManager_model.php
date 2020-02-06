@@ -168,6 +168,7 @@ class SerieManager_model extends CI_Model
 	 */
     public function update($object)
     {	
+
 		$data = array(
 			'serie_name' => $object['serie_name'],
 			'serie_summary' => $object['serie_summary'],
@@ -175,9 +176,17 @@ class SerieManager_model extends CI_Model
 			'serie_nbseasons' => $object['serie_nbseasons'],
 			'serie_age' => $object['serie_age'],
 			'serie_catid' => $object['serie_catid']+1,
-			'serie_srcid' => $object['serie_srcid']+1,
-			'serie_img' => $object['serie_img']
-		 );
+			'serie_srcid' => $object['serie_srcid']+1
+		);
+
+		if(isset($object["serie_img"]) && $object["serie_img"]!=""){
+			$img = $object["serie_img"];
+			
+			$data +=  ['serie_img' => $img];
+		}
+
+
+		
 
 		$this->db->where('serie_id', $object['serie_id']);
 		$this->db->update('serie', $data);

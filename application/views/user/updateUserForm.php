@@ -31,6 +31,7 @@ if (isset($this->session->userdata['user_id'])&&$this->session->userdata['user_r
 }else{
 	echo form_hidden('user_role',3);
 }
+
 ?>
 <div class="div-btn-end">
 	<?php echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');

@@ -8,4 +8,4 @@ echo "\nERREUR: ",
 	"\n\n";
 ?>
 
-<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'"><a style="color: white;">Retour</a></button>
+<a type="button" class="btn btn-secondary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Retour</a>

@@ -1,5 +1,4 @@
 <tr>
-	<td><?php echo $objUser->getId(); ?></td>
 	<td><a href="/what2watch/index.php/user/profile/<?php echo $objUser->getId(); ?>"><?php echo $objUser->getPseudo(); ?></a></td>
 	<td><?php echo $objUser->getName(); ?></td>
 	<td><?php echo $objUser->getFirstname(); ?></td>

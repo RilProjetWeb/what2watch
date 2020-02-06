@@ -6,7 +6,6 @@
 				data-sortable="true">
                 <thead>
                     <tr style="text-align: center;">
-                        <th data-sortable="true">Id</th>
                         <th data-sortable="true">Pseudo</th>
                         <th data-sortable="true">Nom</th>
                         <th data-sortable="true">Prénom</th>

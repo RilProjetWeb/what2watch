@@ -148,6 +148,12 @@ footer p {
 	border: 2px solid green;
 }
 
+.img-edit-serie{
+	display: flex;
+    align-items: flex-end;
+    margin-left: 10px;	
+}
+
 /*
  SEARCH COMPONENT
 */

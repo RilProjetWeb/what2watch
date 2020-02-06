@@ -24,7 +24,6 @@
 		<p class="span-info-serie-creator">Créé par : <a href="/what2watch/index.php/user/profile/<?php echo $objSerie->getCreator(); ?>"><?php echo $objSerie->getCreatorname(); ?></a></p>
 		<?php if($objSerie->getStatus()==1) { ?>
 			<div class="div-btn-actions-serie">
-				<!-- TODO afficher boutons si créateur, modérateur, admin -->
 				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
 				<a class="btn btn-secondary" href="/what2watch/index.php/serie/details/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">subject</i>Détails</a>
 				<a class="btn btn-primary" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
@@ -33,7 +32,6 @@
 			</div>
 		<?php } else {?>
 			<div class="div-btn-actions-serie">
-				<!-- TODO afficher boutons si créateur, modérateur, admin -->
 				<a class="btn btn-secondary" href="/what2watch/index.php/serie/details/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">subject</i>Détails</a>
 				<a class="btn btn-secondary" href="/what2watch/index.php/serie/delete/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">close</i></a>
 				<a class="btn btn-primary" href="/what2watch/index.php/serie/validateSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">check</i></a>

@@ -1,3 +1,4 @@
+<div class="container-general">
 <?php
 	echo form_open('index.php/User/update');
 	
@@ -15,10 +16,23 @@
 					<td>".form_radio('user_img','UDL_Logo.png')."<img style='margin: auto; height: 150px; width: 180px' src='/what2watch/assets/images/profile/UDL_Logo.png'>"."</td>
 				</tr>
 			</table>";
+			
+			// $table = new \CodeIgniter\View\Table();
 
-	echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-success'], 'Valider');
-	
-	echo form_close();
+			// $data = array(
+			// 		array('Name', 'Color', 'Size'),
+			// 		array('Fred', 'Blue', 'Small'),
+			// 		array('Mary', 'Red', 'Large'),
+			// 		array('John', 'Green', 'Medium')
+			// );
+			
+			//echo $table->generate($data);
 ?>
 
-<br><button type="button" class="btn btn-warning" onclick="location.href='<?php echo $_SERVER['HTTP_REFERER']; ?>'"><a style="color: white;">Annuler</a></button>
+<div class="div-btn-end">
+	<?php echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-secondary'], 'Valider');
+   		  echo form_close();
+	?>
+	<a type="button" class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Annuler</a>
+</div>
+</div>
