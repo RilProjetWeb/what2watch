@@ -2,7 +2,7 @@
 <?php 
 
 $this->load->helper('form');
-
+//formulaire de saisie pour modification des informations de l'utilisateur
 echo form_open('index.php/User/update');
 
 echo form_input(['name' => 'user_id', 'type' => 'hidden','class' => 'form-control', 'value' => $objUser->getId()]);
@@ -11,7 +11,7 @@ if (isset($this->session->userdata['user_id'])&&$this->session->userdata['user_r
 	echo form_label('Pseudo', 'user_pseudo');
 	echo form_input(['name' => 'user_pseudo', 'type' => 'text','class' => 'form-control', 'value' => $objUser->getPseudo()]);
 }else{
-	echo form_hidden(['name' => 'user_pseudo', 'type' => 'text','class' => 'form-control', 'value' => $objUser->getPseudo()]);
+	echo form_hidden('user_pseudo',$objUser->getPseudo());
 }
 
 echo form_label('Nom', 'user_name');

@@ -18,8 +18,7 @@ class UserManager_model extends CI_Model
 		}else{
 			return false;
 		}
-}
-	
+	}
 	/**
 	 * Récupère tous les utilisateurs de la table user sans restrictions
 	 */
@@ -55,7 +54,6 @@ class UserManager_model extends CI_Model
 		$query=$this->db->get()->row();
 		return $query;
 	}
-
 	/**
 	 * Récupère un utilisateur selon  l'identifiant en paramètre
 	 */
@@ -68,7 +66,6 @@ class UserManager_model extends CI_Model
 		$query=$this->db->get()->row();
 		return $query;
 	}
-
 	/**
 	 * Modification d'un utilisateur dans la bdd
 	 */
@@ -77,6 +74,7 @@ class UserManager_model extends CI_Model
 		/*Tentative de modification du champs*/
 		unset($data['user_id']);
 		unset($data['btnSubmit']);
+		var_dump($data);
 		try {
 			foreach($data as $field => $newData){
 				if($field==='user_password'){
@@ -93,7 +91,6 @@ class UserManager_model extends CI_Model
 			return false;
 		}
 	}
-
 	/**
 	 * Création d'un utilisateur de la bdd
 	 */
@@ -123,7 +120,6 @@ class UserManager_model extends CI_Model
 			return false;
 		}
 	}
-
 	/**
 	 * Suppression d'un utilisateur dans la bdd
 	 */
@@ -151,5 +147,62 @@ class UserManager_model extends CI_Model
 
         $query = $this->db->get();
         return $query->result('array');
+    }
+    public function getFavorisByUser($user_id)
+    {
+ 		$this->db->Select("*");
+		$this->db->From("favoris");
+		$this->db->Where("user_id",$user_id);
+		$query=$this->db->get();
+		return $query->result();   	
+    }
+    public function getFavorisByUserAndSerie($user_id,$serie_id)
+    {
+ 		$this->db->Select("*");
+		$this->db->From("favoris");
+		$this->db->Where("user_id",$user_id);
+		$this->db->Where("serie_id",$serie_id);
+		$query=$this->db->get();
+		return $query->result();   	
+    }
+    public function addFavoris($user_id,$serie_id)
+    {
+    	try {
+    		$data = array('user_id' => $user_id,
+					  'serie_id' => $serie_id);
+    	
+    		$this->db->insert('favoris',$data);
+    		return true;
+    	} catch (Exception $e) {
+    		return false;
+    	}
+    }
+    public function deleteFavorisByIds($user_id,$serie_id){
+    	//Tentative de suppression
+		try {
+			//Requête: DELETE FROM favoris WHERE user_id=$id;
+			$this->db->where('user_id', $user_id);
+			$this->db->where('serie_id', $serie_id);
+			$this->db->delete('favoris');
+			//Retourner vrai en cas de succès
+			return true;
+		}catch (Exception $e) {
+			//Retrouner faux en cas d'échec
+			return false;
+		}	
+    }
+    public function deleteFavorisByid($field,$id)
+    {
+		//Tentative de suppression
+		try {
+			//Requête: DELETE FROM favoris WHERE user_id=$id;
+			$this->db->where($field, $id);
+			$this->db->delete('favoris');
+			//Retourner vrai en cas de succès
+			return true;
+		}catch (Exception $e) {
+			//Retrouner faux en cas d'échec
+			return false;
+		}	
     }
 }

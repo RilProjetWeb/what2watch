@@ -24,6 +24,18 @@
 		<p class="span-info-serie-creator">Créé par : <a href="/what2watch/index.php/user/profile/<?php echo $objSerie->getCreator(); ?>"><?php echo $objSerie->getCreatorname(); ?></a></p>
 		<?php if($objSerie->getStatus()==1) { ?>
 			<div class="div-btn-actions-serie">
+				<?php
+					if (isset($this->session->userdata['user_id'])) {
+						if ($favoris==false){
+							echo '<a class="btn btn-secondary" href="/what2watch/index.php/user/addToFavoris/'.$this->session->userdata['user_id'].'/'.$objSerie->getId().'"role="button"><i class="material-icons">star</i>Ajouter aux favoris</a>';
+						}else{
+							echo '<a class="btn btn-secondary"role="button" disabled><i class="material-icons">star</i>Favoris!</a>';
+						}
+						if (strpos($_SERVER['PHP_SELF'], 'favorisList')==true) {
+								echo '<a class="btn btn-secondary" href="/what2watch/index.php/user/deleteFavoris/'.$this->session->userdata['user_id'].'/'.$objSerie->getId().'" role="button"><i class="material-icons"></i>Retirer des favoris</a>';
+							}
+					}
+				?>
 				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
 				<a class="btn btn-secondary" href="/what2watch/index.php/serie/details/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">subject</i>Détails</a>
 				<a class="btn btn-primary" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>

@@ -11,4 +11,4 @@
 	echo form_close();
 ?>
 
-<a type="button" class="btn btn-primary" href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Annuler</a>
+<a type="button" class="btn btn-secondary" href="javascript:history.go(-1)">Annuler</a>

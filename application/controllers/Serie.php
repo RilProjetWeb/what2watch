@@ -12,8 +12,8 @@ class Serie extends CI_Controller
 
     public function index()
     {
+    	$this->load->model('userManager_model');
         $arrSeries = $this->SerieManager_model->getAll();
-
         // Recupération des catégories et chargement de la liste d'options
 		$options['objCat'] = $this->getCategories(true);
 
@@ -27,6 +27,13 @@ class Serie extends CI_Controller
         foreach ($arrSeries as $arrDetSeries) {
             $objSerie->hydrate($arrDetSeries);
             $data['objSerie'] = $objSerie;
+            if (isset($this->session->userdata['user_id'])) {
+            	if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+                	$data['favoris']=false;
+            	}else{
+                	$data['favoris']=true;
+            	}
+            }
             $this->load->view('serie/serieComponent', $data);
 		}
 		
@@ -53,13 +60,20 @@ class Serie extends CI_Controller
 	 * Page des séries de l'utilisateur connecté
 	 */
 	public function mySeries($idUser){
-
+		$this->load->model('userManager_model');
 		$arrMySeries = $this->SerieManager_model->getMySeries($idUser);
 		$objSerie = new SerieClass_model;
         $data = array();
         foreach ($arrMySeries as $serie) {
             $objSerie->hydrate($serie);
             $data['objSerie'] = $objSerie;
+            if (isset($this->session->userdata['user_id'])) {
+            	if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+                	$data['favoris']=false;
+            	}else{
+                	$data['favoris']=true;
+            	}
+            }
             $this->load->view('serie/serieComponent', $data);
 		}
 		$this->load->view('footer');
@@ -69,13 +83,18 @@ class Serie extends CI_Controller
 	 * Page des séries à valider pour un modérateur
 	 */
 	public function seriesToValidate(){
-
+		$this->load->model('userManager_model');
 		$arrMySeries = $this->SerieManager_model->getSeriesToValidate();
 		$objSerie = new SerieClass_model;
         $data = array();
         foreach ($arrMySeries as $serie) {
             $objSerie->hydrate($serie);
             $data['objSerie'] = $objSerie;
+            if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+                $data['favoris']=false;
+            }else{
+                $data['favoris']=true;
+            }
             $this->load->view('serie/serieComponent', $data);
 		}
 		$this->load->view('footer');
@@ -140,6 +159,8 @@ class Serie extends CI_Controller
 	 */
 	public function delete($id)
     {
+    	$this->load->model('userManager_model');
+    	$this->userManager_model->deleteFavorisByid('serie_id',$id);
 		$this->SerieManager_model->delete($id);
 		redirect('/');
     }

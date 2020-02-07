@@ -33,6 +33,7 @@
 								if($this->session->userdata('user_role')==1) { 
 									echo "<a class='nav-link' href='/what2watch/index.php/user/usermanager/ALL'>Gestion des utilisateurs</a>"; 
 								} 
+								echo "<a class='nav-link' href='/what2watch/index.php/user/favorisList/".$this->session->userdata('user_id')."'>Mes favoris</a>";
 							?>
 						</li>
 					</ul>
