@@ -2,7 +2,7 @@
 
 $this->load->helper('form');
 
-echo form_open('index.php/serie/add', ['id' => 'frmAddSerie']);
+echo form_open_multipart('index.php/serie/add', ['id' => 'frmAddSerie']);
 
 echo form_input(['name' => 'serie_name', 'class' => 'form-control', 'placeholder' => 'Nom', 'required' => 'required']);
 
@@ -18,7 +18,7 @@ echo form_dropdown(['name' => 'serie_catid','class' => 'form-control', 'required
 
 echo form_dropdown(['name' => 'serie_srcid','class' => 'form-control', 'required' => 'required'], $objSrc);
 
-echo form_upload(['name' => 'serie_img','class' => 'form-control-file', 'required' => 'required']);
+echo form_upload(['name' => 'serie_img', 'id' => 'serie_img','class' => 'form-control-file', 'required' => 'required']);
 
 ?>
 <div class="div-btn-end">

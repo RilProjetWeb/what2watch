@@ -10,7 +10,7 @@ class SerieManager_model extends CI_Model
 	/**
 	 * Récupération des séries selon filtres et status (publié ou non)
 	 */
-    public function getAll()
+    public function getAll($limit = null , $start = null)
     {
         $this->db->select("serie_id, serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid, cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img, serie_creator");
         $this->db->from('serie s');
@@ -54,9 +54,13 @@ class SerieManager_model extends CI_Model
 		
 		// Seulement les séries validés
 		$this->db->where('serie_status', 1);
-
+		$this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result('array');
+	}
+	
+	public function get_count() {
+        return count($this->getAll());
     }
 
 	/**
@@ -145,7 +149,7 @@ class SerieManager_model extends CI_Model
 	/**
 	 * Ajout d'une série
 	 */
-    public function add($object)
+    public function add($object, $imgFile)
     {
 		$data = array(
 			'serie_name' => $object['serie_name'],
@@ -155,7 +159,7 @@ class SerieManager_model extends CI_Model
 			'serie_age' => $object['serie_age'],
 			'serie_catid' => $object['serie_catid'],
 			'serie_srcid' => $object['serie_srcid'],
-			'serie_img' => $object['serie_img'],
+			'serie_img' => $imgFile,
 			'serie_status' => 0,
 			'serie_creator' => 1,
 		 );
@@ -166,7 +170,7 @@ class SerieManager_model extends CI_Model
 	/**
 	 * Mise à jour d'une série
 	 */
-    public function update($object)
+    public function update($object, $imgFile)
     {	
 
 		$data = array(
@@ -179,14 +183,9 @@ class SerieManager_model extends CI_Model
 			'serie_srcid' => $object['serie_srcid']+1
 		);
 
-		if(isset($object["serie_img"]) && $object["serie_img"]!=""){
-			$img = $object["serie_img"];
-			
-			$data +=  ['serie_img' => $img];
+		if(isset($imgFile) && $imgFile!=""){
+			$data +=  ['serie_img' => $imgFile];
 		}
-
-
-		
 
 		$this->db->where('serie_id', $object['serie_id']);
 		$this->db->update('serie', $data);

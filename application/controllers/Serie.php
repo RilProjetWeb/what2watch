@@ -8,12 +8,26 @@ class Serie extends CI_Controller
         $this->load->model('SerieManager_model');
 		$this->load->model('SerieClass_model');
 		$this->load->view('header');
+		$this->load->library("pagination");
     }
 
     public function index()
     {
+		$config = array();
+        $config["base_url"] = base_url() . "index.php/serie";
+        $config["total_rows"] = $this->SerieManager_model->get_count();
+        $config["per_page"] = 5;
+        $config["uri_segment"] = 2;
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+		$data['serie'] = $this->SerieManager_model->getAll($config["per_page"], $page);
+		$data["links"] = $this->pagination->create_links();
+
     	$this->load->model('userManager_model');
-        $arrSeries = $this->SerieManager_model->getAll();
+        $arrSeries = $data['serie'];
         // Recupération des catégories et chargement de la liste d'options
 		$options['objCat'] = $this->getCategories(true);
 
@@ -23,7 +37,6 @@ class Serie extends CI_Controller
         $this->load->view('serie/search', $options);
 
         $objSerie = new SerieClass_model;
-        $data = array();
         foreach ($arrSeries as $arrDetSeries) {
             $objSerie->hydrate($arrDetSeries);
             $data['objSerie'] = $objSerie;
@@ -36,25 +49,12 @@ class Serie extends CI_Controller
             }
             $this->load->view('serie/serieComponent', $data);
 		}
+
+		$this->load->view('serie/paginationSerie', $data);
 		
 		$this->load->view('footer');
 
     }
-
-	/**
-	 * Page de détails d'une série
-	 */
-    public function details($id)
-    {
-        $arrSerieById = $this->SerieManager_model->getSerieById($id);
-        $data = array();
-        $objSerie = new SerieClass_model;
-        $objSerie->hydrate($arrSerieById[0]);
-        $data['objSerie'] = $objSerie;
-		$this->load->view('serie/detailsSerieComponent', $data);
-		
-		$this->load->view('footer');
-	}
 	
 	/**
 	 * Page des séries de l'utilisateur connecté
@@ -63,20 +63,24 @@ class Serie extends CI_Controller
 		$this->load->model('userManager_model');
 		$arrMySeries = $this->SerieManager_model->getMySeries($idUser);
 		$objSerie = new SerieClass_model;
-        $data = array();
-        foreach ($arrMySeries as $serie) {
-            $objSerie->hydrate($serie);
-            $data['objSerie'] = $objSerie;
-            if (isset($this->session->userdata['user_id'])) {
-            	if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
-                	$data['favoris']=false;
-            	}else{
-                	$data['favoris']=true;
-            	}
-            }
-            $this->load->view('serie/serieComponent', $data);
+		$data = array();
+		if($arrMySeries){
+			foreach ($arrMySeries as $serie) {
+			$objSerie->hydrate($serie);
+			$data['objSerie'] = $objSerie;
+			if (isset($this->session->userdata['user_id'])) {
+				if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+					$data['favoris']=false;
+				}else{
+					$data['favoris']=true;
+				}
+			}
+			$this->load->view('serie/serieComponent', $data);
+			}
+		}else{
+			$this->load->view('serie/emptyMySeries');
 		}
-		$this->load->view('footer');
+        $this->load->view('footer');
 	}
 
 	/**
@@ -86,16 +90,20 @@ class Serie extends CI_Controller
 		$this->load->model('userManager_model');
 		$arrMySeries = $this->SerieManager_model->getSeriesToValidate();
 		$objSerie = new SerieClass_model;
-        $data = array();
-        foreach ($arrMySeries as $serie) {
-            $objSerie->hydrate($serie);
-            $data['objSerie'] = $objSerie;
-            if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
-                $data['favoris']=false;
-            }else{
-                $data['favoris']=true;
-            }
-            $this->load->view('serie/serieComponent', $data);
+		$data = array();
+		if($arrMySeries){
+			foreach ($arrMySeries as $serie) {
+				$objSerie->hydrate($serie);
+				$data['objSerie'] = $objSerie;
+				if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+					$data['favoris']=false;
+				}else{
+					$data['favoris']=true;
+				}
+				$this->load->view('serie/serieComponent', $data);
+			}
+		}else{
+			$this->load->view('serie/emptySeriesToValidate');
 		}
 		$this->load->view('footer');
 	}
@@ -142,7 +150,12 @@ class Serie extends CI_Controller
 	 * Appel à la requête d'ajout d'une série
 	 */
 	public function add(){
-		$this->SerieManager_model->add($_POST);
+		$this->SerieManager_model->add($_POST, $_FILES['serie_img']['name']);
+		// Sauvegarde de l'image dans les ressources
+		$config['upload_path'] = './assets/images/series';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $this->load->library('upload', $config);
+		$this->upload->do_upload('serie_img');
 		redirect('/');
 	}
 	
@@ -150,7 +163,11 @@ class Serie extends CI_Controller
 	 * Appel à la requête de mise à jour d'une série
 	 */
 	public function update(){
-		$this->SerieManager_model->update($_POST);
+		$this->SerieManager_model->update($_POST, $_FILES['serie_img']['name']);
+		$config['upload_path'] = './assets/images/series';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $this->load->library('upload', $config);
+		$this->upload->do_upload('serie_img');
 		redirect('/');
 	}
 
@@ -195,5 +212,17 @@ class Serie extends CI_Controller
             array_push($options, $source['src_lib']);
         }
         return $options;
+	}
+	
+	public function imageUpload($post) {
+        $config['upload_path'] = './what2watch/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('serie_img')) {
+            echo "error";
+        } else {
+            $data = array('image_metadata' => $this->upload->data());
+        }
     }
 }

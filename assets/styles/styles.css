@@ -105,6 +105,21 @@ footer p {
     justify-content: space-between;
 }
 
+.head-info-serie{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.head-info-serie i {
+	font-size: 45px;
+	color: #212529;
+}
+
+.head-info-serie i:hover {
+	color: #D33F49;
+}
+
 .info-det-serie {
     display: flex;
     justify-content: space-between;
@@ -228,4 +243,20 @@ h3{
 .div-btn-end {
 	display: flex;
     justify-content: flex-end;
+}
+
+/*
+ PAGINATION
+*/
+.pagination{
+	width: 50%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	padding: 25px;
+}
+
+.pagination *{
+	padding: 0 15px !important;
+	font-size: 25px;
 }

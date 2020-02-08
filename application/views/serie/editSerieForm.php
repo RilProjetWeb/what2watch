@@ -3,7 +3,7 @@
 $this->load->helper('form');
 $this->load->helper('html');
 
-echo form_open('index.php/serie/update', ['id' => 'frmEditSerie']);
+echo form_open_multipart('index.php/serie/update', ['id' => 'frmEditSerie']);
 
 echo form_hidden('serie_id', $objSerie->getId());
 
@@ -11,11 +11,11 @@ echo form_hidden('serie_id', $objSerie->getId());
 <div class="img-edit-serie">
 	<?php
 	$imageProperties = [
-		'src'    => '/assets/images/' . $objSerie->getImg(),
+		'src'    => '/assets/images/series/' . $objSerie->getImg(),
 		'class'  => 'img-serie',
 	];
 	echo img($imageProperties);
-	echo form_upload(['name' => 'serie_img', 'class' => 'form-control-file', 'value' => $objSerie->getImg()]);
+	echo form_upload(['name' => 'serie_img', 'id' => 'serie_img', 'class' => 'form-control-file', 'value' => $objSerie->getImg()]);
 	?>
 </div>
 
