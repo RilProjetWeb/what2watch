@@ -245,6 +245,10 @@ h3{
     justify-content: flex-end;
 }
 
+.alert-danger{
+	margin: 20px 10px; 
+}
+
 /*
  PAGINATION
 */
@@ -293,3 +297,5 @@ h3{
 .div-btn-profile a{
 	margin: 20px;
 }
+
+

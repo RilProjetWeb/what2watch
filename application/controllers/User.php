@@ -14,9 +14,10 @@ class User extends CI_Controller
     /**
      * Affichage d'une vue proposant un formulaire de connexion au compte d'utilisateur
      */
-    public function signin()
+    public function signin($isError = false)
     {
-        $this->load->view('user/signin');
+		$data["isError"] = $isError;
+		$this->load->view('user/signin', $data);
         $this->load->view('footer');
     }
 
@@ -64,9 +65,7 @@ class User extends CI_Controller
             $this->session->set_userdata($user);
             redirect('/');
         } else {
-            $data = ['heading' => "Echec de l'identification", 'message' => '(Identifiant ou mot de passe incorrect)'];
-            $this->load->view('errors/cli/error_404', $data);
-            $this->load->view('footer');
+            $this->signin(true);
         }
     }
 

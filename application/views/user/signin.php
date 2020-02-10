@@ -1,8 +1,9 @@
+<div class="container-general">
 <?php 
 
 $this->load->helper('form');
 
-$attributes = ['class' => 'container-general', 'id' => 'signinform'];
+$attributes = ['id' => 'signinform'];
 
 echo form_open('index.php/user/login', $attributes);
 
@@ -15,3 +16,14 @@ echo form_input(['name' => 'user_password','type' => 'password', 'class' => 'for
 echo form_submit(['name' => 'btnSubmit','class' => 'btn btn-danger'], 'Connexion');
 
 echo form_close();
+
+if(isset($isError) && $isError){
+	?>
+		<div class="alert alert-danger" role="alert">
+		Identifiant ou mot de passe incorrect
+		</div>
+	<?php
+}
+
+?>
+</div>
