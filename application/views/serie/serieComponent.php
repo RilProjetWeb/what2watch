@@ -32,7 +32,13 @@
 		</div>
         <h6 class="summary-serie"> 
 			<?php echo $objSerie->getResume(); ?> 
-			<?php if(strlen($objSerie->getSummary())>250) { ?> <a href="" data-toggle="modal" data-target="#modalResume<?php echo $objSerie->getId(); ?>">voir plus</a> <?php } ?>
+			<?php 
+				if(strlen($objSerie->getSummary())>250) {
+					if (isset($this->session->userdata['user_id'])) { ?>
+						<a href="" data-toggle="modal" data-target="#modalResume<?php echo $objSerie->getId(); ?>">voir plus</a> 
+					<?php }
+				} 
+			?>
 		</h6>
         <div class="info-det-serie">
             <span class="span-info-serie-year"><?php echo $objSerie->getYear(); ?> </span>
@@ -50,7 +56,9 @@
             <span class="span-info-serie-age"><?php echo $objSerie->getAge(); ?>+ </span>
             <span class="span-info-serie"><?php echo $objSerie->getNbseasons(); ?> saison(s) </span>
         </div>
+		<?php if (isset($this->session->userdata['user_id'])) { ?>
 		<p class="span-info-serie-creator">Créé par : <a href="/what2watch/index.php/user/profile/<?php echo $objSerie->getCreator(); ?>"><?php echo $objSerie->getCreatorname(); ?></a></p>
+		<?php } ?>
 		<?php if($objSerie->getStatus()==1) { ?>
 			<div class="div-btn-actions-serie">
 				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>

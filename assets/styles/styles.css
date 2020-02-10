@@ -260,3 +260,36 @@ h3{
 	padding: 0 15px !important;
 	font-size: 25px;
 }
+
+/*
+ PROFILE
+*/
+.profile-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    margin: 25px 700px;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+}
+
+.profile-img{
+	width: 80%;
+	margin: 0 auto;
+}
+
+.profile-pseudo{
+	display: flex;
+	justify-content: center;
+	margin: 20px 0px;
+}
+
+.profile-infos{
+	margin: 20px 0px;
+}
+
+.div-btn-profile a{
+	margin: 20px;
+}

@@ -81,7 +81,8 @@ class User extends CI_Controller
         $singleUser = $this->UserManager_model->getUserById($id);
         $objUser->hydrate($singleUser);
         $data['objUser'] = $objUser;
-        $this->load->view('user/profile', $data);
+		$this->load->view('user/profile', $data);
+		$this->load->view('footer');
     }
 
     /**
@@ -162,26 +163,20 @@ class User extends CI_Controller
     }
 
     /**
-     * Mise à jour de l'image de profile du compte d'utilisateur
-     */
-    public function updateUserImage($id)
-    {
-        if (isset($this->session->userdata['user_id']) && $this->session->userdata['user_id'] == $id) {
-            $data['userId'] = $id;
-            $this->load->view('user/changeUserImage', $data);
-            $this->load->view('footer');
-        } else {
-            $this->load->view('accessDenied');
-            $this->load->view('footer');
-        }
-    }
-
-    /**
      * Mise à jour des informations du compte utilisateur
      */
     public function update()
     {
-        $this->UserManager_model->updateUser($_POST['user_id'], $_POST);
+		$img = $_FILES['user_img']['name'];
+		$this->UserManager_model->updateUser($_POST['user_id'], $_POST, $img);
+		if(isset($img) && $img!=""){
+			$config['upload_path'] = './assets/images/profile';
+			$config['allowed_types'] = 'jpeg|jpg|png';
+			$this->load->library('upload', $config);
+			$this->upload->do_upload('user_img');
+			$_SESSION['user_img']=$img;
+		}
+		
         if (isset($this->session->userdata['user_role']) && $this->session->userdata['user_role'] == 1) {
             redirect('index.php/user/usermanager/ALL');
         } else {

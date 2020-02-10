@@ -214,15 +214,4 @@ class Serie extends CI_Controller
         return $options;
 	}
 	
-	public function imageUpload($post) {
-        $config['upload_path'] = './what2watch/';
-        $config['allowed_types'] = 'jpeg|jpg|png';
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('serie_img')) {
-            echo "error";
-        } else {
-            $data = array('image_metadata' => $this->upload->data());
-        }
-    }
 }
