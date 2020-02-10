@@ -43,8 +43,7 @@
 }
 
 footer {
-	display : table-row !important;
-	height: 75px;
+	display : table-footer-group !important;
 }
 
 footer p {
@@ -52,6 +51,7 @@ footer p {
 	color: #ccc;
 	height: 100% !important;
 	margin: 0;
+	padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
