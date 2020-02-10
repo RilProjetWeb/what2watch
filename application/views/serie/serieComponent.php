@@ -22,7 +22,7 @@
 					if (strpos($_SERVER['PHP_SELF'], 'favorisList')==true) {
 						?>
 						<a href="/what2watch/index.php/user/deleteFavoris/<?php echo $this->session->userdata['user_id'].'/'.$objSerie->getId()?>"
-							data-toggle="tooltip" data-placement="top" title="Retier de ma liste !">
+							data-toggle="tooltip" data-placement="top" title="Retirer de ma liste !">
 							<i class="material-icons">remove_circle_outline</i>
 						</a>
 						<?php
