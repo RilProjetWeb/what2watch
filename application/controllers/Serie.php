@@ -12,7 +12,8 @@ class Serie extends CI_Controller
     }
 
     public function index()
-    {
+	{
+		
 		$config = array();
         $config["base_url"] = base_url() . "index.php/serie";
         $config["total_rows"] = $this->SerieManager_model->get_count();
@@ -25,6 +26,7 @@ class Serie extends CI_Controller
 
 		$data['serie'] = $this->SerieManager_model->getAll($config["per_page"], $page);
 		$data["links"] = $this->pagination->create_links();
+		$data['page'] = "index";
 
     	$this->load->model('userManager_model');
         $arrSeries = $data['serie'];
@@ -62,20 +64,22 @@ class Serie extends CI_Controller
 	public function mySeries($idUser){
 		$this->load->model('userManager_model');
 		$arrMySeries = $this->SerieManager_model->getMySeries($idUser);
+		$arrMySeries;
 		$objSerie = new SerieClass_model;
 		$data = array();
+		$data['page'] = "mySeries";
 		if($arrMySeries){
 			foreach ($arrMySeries as $serie) {
-			$objSerie->hydrate($serie);
-			$data['objSerie'] = $objSerie;
-			if (isset($this->session->userdata['user_id'])) {
-				if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
-					$data['favoris']=false;
-				}else{
-					$data['favoris']=true;
+				$objSerie->hydrate($serie);
+				$data['objSerie'] = $objSerie;
+				if (isset($this->session->userdata['user_id'])) {
+					if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
+						$data['favoris']=false;
+					}else{
+						$data['favoris']=true;
+					}
 				}
-			}
-			$this->load->view('serie/serieComponent', $data);
+				$this->load->view('serie/serieComponent', $data);
 			}
 		}else{
 			$this->load->view('serie/emptyMySeries');
@@ -91,6 +95,7 @@ class Serie extends CI_Controller
 		$arrMySeries = $this->SerieManager_model->getSeriesToValidate();
 		$objSerie = new SerieClass_model;
 		$data = array();
+		$data['page']="seriesToValidate";
 		if($arrMySeries){
 			foreach ($arrMySeries as $serie) {
 				$objSerie->hydrate($serie);

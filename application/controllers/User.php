@@ -259,6 +259,7 @@ class User extends CI_Controller
 
             $objSerie = new SerieClass_model;
 			$data = array();
+			$data['page']="favorisList";
 			$favorisList = $this->UserManager_model->getFavorisByUser($userId);
 			
 			if($favorisList){

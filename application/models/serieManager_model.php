@@ -161,7 +161,7 @@ class SerieManager_model extends CI_Model
 			'serie_srcid' => $object['serie_srcid'],
 			'serie_img' => $imgFile,
 			'serie_status' => 0,
-			'serie_creator' => 1,
+			'serie_creator' => $this->session->userdata['user_id'],
 		 );
 
         $this->db->insert('serie', $data);

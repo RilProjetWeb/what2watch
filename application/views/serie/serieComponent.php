@@ -6,7 +6,7 @@
 				<?php echo $objSerie->getName(); ?>
 			</a>
 			<?php
-				if (isset($this->session->userdata['user_id'])) {
+				if (isset($this->session->userdata['user_id']) && $objSerie->getStatus()==1) {
 					if (strpos($_SERVER['PHP_SELF'], 'favorisList')!=true){
 						if ($favoris==false){
 							?>
@@ -59,16 +59,7 @@
 		<?php if (isset($this->session->userdata['user_id'])) { ?>
 		<p class="span-info-serie-creator">Créé par : <a href="/what2watch/index.php/user/profile/<?php echo $objSerie->getCreator(); ?>"><?php echo $objSerie->getCreatorname(); ?></a></p>
 		<?php } ?>
-		<?php if($objSerie->getStatus()==1) { ?>
-			<div class="div-btn-actions-serie">
-				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
-				<a class="btn btn-secondary" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
-				<a class="btn btn-primary" data-toggle="modal" data-target="#modalSuppression<?php echo $objSerie->getId(); ?>">
-					<i class="material-icons">delete</i>Supprimer
-				</a>
-				<?php } ?>
-			</div>
-		<?php } else {?>
+		<?php if($page=="seriesToValidate") { ?>
 			<div class="div-btn-actions-serie">
 				<a class="btn btn-primary" data-toggle="modal" data-target="#modalSuppression<?php echo $objSerie->getId(); ?>" role="button">
 					<i class="material-icons">close</i>
@@ -77,6 +68,15 @@
 					data-toggle="tooltip" data-placement="top" title="Valider la série">
 					<i class="material-icons">check</i>
 				</a>
+			</div>
+		<?php } else {?>
+			<div class="div-btn-actions-serie">
+				<?php if($objSerie->getCreator()==$this->session->userdata('user_id') || $this->session->userdata('user_role')==1 || $this->session->userdata('user_role')==2){ ?>
+				<a class="btn btn-secondary" href="/what2watch/index.php/serie/editSerie/<?php echo $objSerie->getId(); ?>" role="button"><i class="material-icons">edit</i>Modifier</a>
+				<a class="btn btn-primary" data-toggle="modal" data-target="#modalSuppression<?php echo $objSerie->getId(); ?>">
+					<i class="material-icons">delete</i>Supprimer
+				</a>
+				<?php } ?>
 			</div>
 		<?php }?>
 	</div>
