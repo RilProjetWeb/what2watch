@@ -249,6 +249,15 @@ h3{
 	margin: 20px 10px; 
 }
 
+.link-red{
+	color: #D33F49;
+}
+
+.link-red:hover{
+	color: #212529;
+}
+
+
 /*
  PAGINATION
 */
@@ -263,7 +272,13 @@ h3{
 .pagination *{
 	padding: 0 15px !important;
 	font-size: 25px;
+	color: #D33F49;
 }
+
+.pagination *:hover{
+	color: #212529;
+}
+
 
 /*
  PROFILE
