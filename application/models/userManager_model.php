@@ -69,7 +69,7 @@ class UserManager_model extends CI_Model
 	/**
 	 * Modification d'un utilisateur dans la bdd
 	 */
-	public function updateUser($id,$data,$img){
+	public function updateUser($id,$data,$img = null){
 		if(isset($img) && $img!=""){
 			$data +=  ['user_img' => $img];
 		}
