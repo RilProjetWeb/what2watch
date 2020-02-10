@@ -169,6 +169,18 @@ footer p {
     margin-left: 10px;	
 }
 
+.serie-to-validate, .serie-to-validate *{
+	display: flex;
+	align-items: center;
+	color : #D33F49 !important;
+	font-size: 22px !important;
+	font-style: italic;
+}
+
+.serie-to-validate * {
+	margin: 0 10px;
+}
+
 /*
  SEARCH COMPONENT
 */
@@ -250,6 +262,8 @@ h3{
 }
 
 .link-red{
+	display: flex;
+	align-items: center;
 	color: #D33F49;
 }
 

@@ -6,6 +6,10 @@
 				<?php echo $objSerie->getName(); ?>
 			</a>
 			<?php
+				if($objSerie->getStatus()==0 && $page=="mySeries"){
+					?><p class="serie-to-validate">En cours de validation<i class="material-icons">timelapse</i></p><?php
+				}
+
 				if (isset($this->session->userdata['user_id']) && $objSerie->getStatus()==1) {
 					if (strpos($_SERVER['PHP_SELF'], 'favorisList')!=true){
 						if ($favoris==false){

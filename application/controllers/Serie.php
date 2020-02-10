@@ -5,44 +5,51 @@ class Serie extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('SerieManager_model');
-		$this->load->model('SerieClass_model');
+        $this->load->model('serieManager_model');
+		$this->load->model('serieClass_model');
 		$this->load->view('header');
 		$this->load->library("pagination");
     }
 
     public function index()
 	{
-		
+		// Configuration de la pagination
 		$config = array();
         $config["base_url"] = base_url() . "index.php/serie";
-        $config["total_rows"] = $this->SerieManager_model->get_count();
+        $config["total_rows"] = $this->serieManager_model->get_count();
         $config["per_page"] = 5;
         $config["uri_segment"] = 2;
 
+		// Initialisation de la pagination
         $this->pagination->initialize($config);
-
         $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 
-		$data['serie'] = $this->SerieManager_model->getAll($config["per_page"], $page);
+		// On stocke les séries dans un tableau selon la limie de la pagination par page
+		$arrSeries = $this->serieManager_model->getAll($config["per_page"], $page);
+		
+		// On enregistre les liens de la pagination pour l'envoyer à la vue
 		$data["links"] = $this->pagination->create_links();
-		$data['page'] = "index";
 
-    	$this->load->model('userManager_model');
-        $arrSeries = $data['serie'];
-        // Recupération des catégories et chargement de la liste d'options
+		// Page courante
+		$data['page'] = "index";
+	   
+		// Recupération des catégories et chargement de la liste d'options
 		$options['objCat'] = $this->getCategories(true);
 
         // Recupération des sources et chargement de la liste d'options
         $options['objSrc'] = $this->getSources(true);
 
-        $this->load->view('serie/search', $options);
-
-        $objSerie = new SerieClass_model;
+		$this->load->view('serie/search', $options);
+		
+		$this->load->model('userManager_model');
+		
+		// On parcourt les séries récupérées, on hydrate un objet Série pour chacune et on charge la vue
+		$objSerie = new serieClass_model;
         foreach ($arrSeries as $arrDetSeries) {
             $objSerie->hydrate($arrDetSeries);
             $data['objSerie'] = $objSerie;
             if (isset($this->session->userdata['user_id'])) {
+				// On vérifie si la série est en favoris pour l'utilisateur
             	if (empty($this->userManager_model->getFavorisByUserAndSerie($this->session->userdata['user_id'],$objSerie->getId()))) {
                 	$data['favoris']=false;
             	}else{
@@ -53,9 +60,7 @@ class Serie extends CI_Controller
 		}
 
 		$this->load->view('serie/paginationSerie', $data);
-		
 		$this->load->view('footer');
-
     }
 	
 	/**
@@ -63,9 +68,9 @@ class Serie extends CI_Controller
 	 */
 	public function mySeries($idUser){
 		$this->load->model('userManager_model');
-		$arrMySeries = $this->SerieManager_model->getMySeries($idUser);
+		$arrMySeries = $this->serieManager_model->getMySeries($idUser);
 		$arrMySeries;
-		$objSerie = new SerieClass_model;
+		$objSerie = new serieClass_model;
 		$data = array();
 		$data['page'] = "mySeries";
 		if($arrMySeries){
@@ -92,8 +97,8 @@ class Serie extends CI_Controller
 	 */
 	public function seriesToValidate(){
 		$this->load->model('userManager_model');
-		$arrMySeries = $this->SerieManager_model->getSeriesToValidate();
-		$objSerie = new SerieClass_model;
+		$arrMySeries = $this->serieManager_model->getSeriesToValidate();
+		$objSerie = new serieClass_model;
 		$data = array();
 		$data['page']="seriesToValidate";
 		if($arrMySeries){
@@ -119,9 +124,9 @@ class Serie extends CI_Controller
     public function editSerie($id)
     {
 
-        $arrSerieById = $this->SerieManager_model->getSerieById($id);
+        $arrSerieById = $this->serieManager_model->getSerieById($id);
         $data = array();
-        $objSerie = new SerieClass_model;
+        $objSerie = new serieClass_model;
         $objSerie->hydrate($arrSerieById[0]);
         $data['objSerie'] = $objSerie;
         $data['objCat'] = $this->getCategories(false);
@@ -147,7 +152,7 @@ class Serie extends CI_Controller
 	 * Validation d'une série par un modérateur
 	 */
 	public function validateSerie($idSerie){
-		$this->SerieManager_model->validateSerie($idSerie);
+		$this->serieManager_model->validateSerie($idSerie);
 		redirect('/');
 	}
 
@@ -155,8 +160,11 @@ class Serie extends CI_Controller
 	 * Appel à la requête d'ajout d'une série
 	 */
 	public function add(){
-		$this->SerieManager_model->add($_POST, $_FILES['serie_img']['name']);
-		// Sauvegarde de l'image dans les ressources
+		// Insertion de la série, en envoyant les informations du formulaire et le nom de l'image
+		$this->serieManager_model->add($_POST, $_FILES['serie_img']['name']);
+		
+		// Sauvegarde de l'image dans les assets du projet
+		// On configue l'enregistrement avec le chemin de destination et les formats autorisés
 		$config['upload_path'] = './assets/images/series';
         $config['allowed_types'] = 'jpeg|jpg|png';
         $this->load->library('upload', $config);
@@ -168,7 +176,7 @@ class Serie extends CI_Controller
 	 * Appel à la requête de mise à jour d'une série
 	 */
 	public function update(){
-		$this->SerieManager_model->update($_POST, $_FILES['serie_img']['name']);
+		$this->serieManager_model->update($_POST, $_FILES['serie_img']['name']);
 		$config['upload_path'] = './assets/images/series';
         $config['allowed_types'] = 'jpeg|jpg|png';
         $this->load->library('upload', $config);
@@ -181,9 +189,8 @@ class Serie extends CI_Controller
 	 */
 	public function delete($id)
     {
-    	$this->load->model('userManager_model');
     	$this->userManager_model->deleteFavorisByid('serie_id',$id);
-		$this->SerieManager_model->delete($id);
+		$this->serieManager_model->delete($id);
 		redirect('/');
     }
 
@@ -192,7 +199,7 @@ class Serie extends CI_Controller
 	 */
     public function getCategories($avecOption)
     {
-        $arrCat = $this->SerieManager_model->getCategories();
+        $arrCat = $this->serieManager_model->getCategories();
         $options = array();
 		if($avecOption){
 			array_push($options, '--Catégorie--');
@@ -208,7 +215,7 @@ class Serie extends CI_Controller
 	 */
     public function getSources($avecOption)
     {
-        $arrSrc = $this->SerieManager_model->getSources();
+        $arrSrc = $this->serieManager_model->getSources();
 		$options = array();
 		if($avecOption){
 			array_push($options, '--Source--');

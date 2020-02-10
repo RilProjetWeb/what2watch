@@ -8,11 +8,12 @@ class SerieManager_model extends CI_Model
     }
 
 	/**
-	 * Récupération des séries selon filtres et status (publié ou non)
+	 * Récupération des séries selon filtres et statut de publication
 	 */
     public function getAll($limit = null , $start = null)
     {
-        $this->db->select("serie_id, serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid, cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img, serie_creator");
+		$this->db->select("serie_id, serie_name, serie_summary, serie_year, serie_nbseasons, serie_age, serie_status, serie_catid,
+		 cat_lib AS serie_catname, serie_srcid, src_lib AS serie_srcname, user_pseudo AS serie_creatorname, serie_img, serie_creator");
         $this->db->from('serie s');
         $this->db->join('category c', 's.serie_catid=c.cat_id');
         $this->db->join('source src', 's.serie_srcid=src.src_id');
@@ -54,6 +55,8 @@ class SerieManager_model extends CI_Model
 		
 		// Seulement les séries validés
 		$this->db->where('serie_status', 1);
+
+		// On limite les données récupérées pour la pagination
 		$this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result('array');
@@ -172,7 +175,7 @@ class SerieManager_model extends CI_Model
 	 */
     public function update($object, $imgFile)
     {	
-
+		// On renseigne chaque champ pour la requête d'insertion avec l'objet Série récupéré
 		$data = array(
 			'serie_name' => $object['serie_name'],
 			'serie_summary' => $object['serie_summary'],
@@ -183,6 +186,7 @@ class SerieManager_model extends CI_Model
 			'serie_srcid' => $object['serie_srcid']+1
 		);
 
+		// On renseigne le nouveau nom de l'image si elle a été modifié
 		if(isset($imgFile) && $imgFile!=""){
 			$data +=  ['serie_img' => $imgFile];
 		}
