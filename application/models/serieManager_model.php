@@ -116,6 +116,7 @@ class SerieManager_model extends CI_Model
         $this->db->join('source src', 's.serie_srcid=src.src_id');
         $this->db->join('user u', 's.serie_creator=u.user_id');
 		$this->db->where('serie_creator', $idUser);
+		$this->db->order_by(1,'DESC');
 		$query = $this->db->get();
         return $query->result('array');
 	}	
@@ -131,6 +132,7 @@ class SerieManager_model extends CI_Model
         $this->db->join('source src', 's.serie_srcid=src.src_id');
         $this->db->join('user u', 's.serie_creator=u.user_id');
 		$this->db->where('serie_status', 0);
+		$this->db->order_by(1,'DESC');
 		$query = $this->db->get();
         return $query->result('array');
 	}
