@@ -189,6 +189,7 @@ class Serie extends CI_Controller
 	 */
 	public function delete($id)
     {
+		$this->load->model('userManager_model');
     	$this->userManager_model->deleteFavorisByid('serie_id',$id);
 		$this->serieManager_model->delete($id);
 		redirect('/');
