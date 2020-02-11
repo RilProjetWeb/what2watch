@@ -27,8 +27,8 @@
 
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-							<a class="nav-link" href="/what2watch/">Accueil</a>
 							<?php if($this->session->userdata('user_id')) { ?>
+								<a class="nav-link" href="/what2watch/">Accueil</a>
 								<a class="nav-link" href="/what2watch/index.php/serie/mySeries/<?php echo $this->session->userdata('user_id') ?>">Mes séries</a>
 								<a class="nav-link" href="/what2watch/index.php/serie/addSerie">Ajouter une série</a>
 							<?php } ?>
