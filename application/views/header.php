@@ -37,12 +37,12 @@
 							if($this->session->userdata('user_role')==2) { 
 								?><a class='nav-link' href='/what2watch/index.php/serie/seriesToValidate'>Séries à valider</a><?php 
 							} 
+							if($this->session->userdata('user_id')) { ?>
+								<a class='nav-link' href='/what2watch/index.php/user/favorisList/<?php echo $this->session->userdata('user_id');?>'>Ma liste</a><?php 
+							} 
 							/** Si le rôle de l'utilsateur connecté est administrateur : afficher l'onglet "Gestion des utilisateurs" */
 							if($this->session->userdata('user_role')==1) { 
 								?><a class='nav-link' href='/what2watch/index.php/user/usermanager/ALL'>Gestion des utilisateurs</a><?php 
-							} 
-							if($this->session->userdata('user_id')) { ?>
-							<a class='nav-link' href='/what2watch/index.php/user/favorisList/<?php echo $this->session->userdata('user_id');?>'>Ma liste</a><?php 
 							} ?>
 						</li>
 					</ul>
